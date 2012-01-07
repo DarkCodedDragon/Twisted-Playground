@@ -1,0 +1,103 @@
+export kit=/sdcard/ext2ubuntu
+export bin=/system/bin
+export mnt=/data/ubuntu
+export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+export TERM=linux
+export HOME=/root
+export USER=root
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+$busyfusion clear
+echo
+
+if [ ! -e /system/xbin/$busyfusion ]
+then
+   echo "Busybox binary not found. Please install"
+   echo
+   exit
+fi
+
+if [ ! -d $mnt ]
+then
+   mkdir $mnt
+   chmod 777 $mnt
+fi
+
+$busyfusion mount -o remount,rw -t yaffs2 `$busyfusion grep /system /proc/mounts | $busyfusion cut -d' ' -f1` /system
+$busyfusion mount -o rw,remount /system
+if [ ! -d /system/sd-ext ]
+then
+   mkdir /system/sd-ext
+   chmod 777 /system/sd-ext
+   ln -s $mnt /system/sd-ext
+fi
+$busyfusion mount -o ro,remount /system
+$busyfusion mount -o remount,rw -t yaffs2 `$busyfusion grep /system /proc/mounts | $busyfusion cut -d' ' -f1` /system
+
+echo
+echo "Select Image Name"
+echo "-------------------"
+#$busyfusion find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+n=1
+for i in /sdcard/ext2ubuntu/*.img
+do
+   friendlyname=`$busyfusion stat -c %n $i | $busyfusion sed 's/\/sdcard\/ext2ubuntu\///'`
+   echo $n': '$friendlyname
+   n=`$busyfusion expr $n + 1`
+done
+echo
+echo "---"
+echo -n "Please choose an image: "
+read sysappsadd
+if [ ! $sysappsadd == "" ]
+then
+   for i in /sdcard/ext2ubuntu/*.img
+   do
+      if [ $n == $sysappsadd ]
+      then
+         $busyfusion mknod /dev/block/loop254 b 7 254
+         $busyfusion losetup /dev/block/loop254 $i
+         $busyfusion mount -t ext2 /dev/block/loop254 $mnt
+      fi
+      n=`$busyfusion expr $n + 1`
+   done
+fi
+
+
+if [ ! -d $mnt/sdcard ]
+then
+   mkdir $mnt/sdcard
+   chmod 777 $mnt/sdcard
+fi
+
+availablemounts=`$busyfusion ls -x /dev/block/vold | $busyfusion awk '{ print $2 }'`
+if [ $availablemounts ]
+then
+   $busyfusion mount -o rw,noatime,nodiratime,nobh -t vfat /dev/block/vold/$availablemounts $mnt/sdcard
+   chmod 777 $mnt/sdcard/*
+fi
+
+$busyfusion mount --bind /dev/pts $mnt/dev/pts
+$busyfusion mount --bind /proc $mnt/proc
+$busyfusion mount --bind /sys $mnt/sys
+
+$busyfusion sysctl -w net.ipv4.ip_forward=1
+
+$busyfusion clear
+
+$busyfusion chroot $mnt /bin/bash
+
+echo " "
+
+if [ -e /data/ubuntu/closesession ]
+then
+   $busyfusion chroot $mnt closesession
+fi
+sleep 1
+$busyfusion umount $mnt/sdcard
+$busyfusion umount $mnt/dev/pts
+$busyfusion umount $mnt/proc
+$busyfusion umount $mnt/sys
+$busyfusion umount $mnt
+$busyfusion clear
+echo

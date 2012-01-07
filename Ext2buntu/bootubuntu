@@ -1,0 +1,85 @@
+export kit=/sdcard/ext2ubuntu
+export bin=/system/bin
+export mnt=/data/ubuntu
+export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+export TERM=linux
+export HOME=/root
+
+busybox clear
+echo
+
+if [ ! -e /system/xbin/busybox ]
+then
+   echo "Busybox binary not found. Please install"
+   echo
+   exit
+fi
+
+if [ ! -d $mnt ]
+then
+   mkdir $mnt
+   chmod 777 $mnt
+fi
+
+busybox mount -o remount,rw -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+busybox mount -o rw,remount /system
+if [ ! -d /system/sd-ext ]
+then
+   mkdir /system/sd-ext
+   chmod 777 /system/sd-ext
+   ln -s $mnt /system/sd-ext
+fi
+busybox mount -o ro,remount /system
+busybox mount -o remount,rw -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+
+availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $3 }'`
+if [ $availablemounts ]
+then
+   busybox mount -o rw,noatime,nodiratime,nobh -t ext2 /dev/block/vold/$availablemounts $mnt
+elif [ -d $mnt/root ]
+then
+   echo "Droid 2 method used. Skipping mount"
+else
+   echo "No Ubuntu found. Launch will cancel"
+   sleep 1
+   exit
+fi
+
+if [ ! -d $mnt/sdcard ]
+then
+   mkdir $mnt/sdcard
+   chmod 777 $mnt/sdcard
+fi
+
+availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $2 }'`
+if [ $availablemounts ]
+then
+   busybox mount -o rw,noatime,nodiratime,nobh -t vfat /dev/block/vold/$availablemounts $mnt/sdcard
+   chmod 777 $mnt/sdcard/*
+fi
+
+busybox mount -t devpts devpts $mnt/dev/pts
+busybox mount -t proc proc $mnt/proc
+busybox mount -t sysfs sysfs $mnt/sys
+busybox sysctl -w net.ipv4.ip_forward=1
+echo "nameserver 8.8.8.8" > $mnt/etc/resolv.conf
+echo "nameserver 8.8.4.4" >> $mnt/etc/resolv.conf
+echo "127.0.0.1 localhost" > $mnt/etc/hosts
+
+busybox chroot $mnt /bin/bash
+
+echo " "
+
+if [ -e /data/ubuntu/closesession ]
+then
+   busybox chroot $mnt closesession
+fi
+sleep 1
+busybox umount $mnt/sdcard
+busybox umount $mnt/dev/pts
+busybox umount $mnt/proc
+busybox umount $mnt/sys
+busybox fuser -k $mnt
+busybox umount $mnt
+busybox clear
+echo

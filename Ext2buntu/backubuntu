@@ -1,0 +1,969 @@
+#!/system/bin/sh
+
+wgetcheck=`busybox stat -c %s /system/xbin/wget`
+checkubuntu=`busybox mountpoint /data/ubuntu | busybox  grep -F "not" -q`
+testdevice=`busybox grep -m 1 -F 'twisted.playground.test_device' /system/build.prop`
+export mnt=/data/ubuntu
+export ifile=$mnt/autoconfig
+export bfile=$mnt/root/.bashrc
+
+reboot='1'
+
+cd /
+
+echo
+echo "HiJacking Console Sanity..."
+if [ ! -e /system/xbin/busybox ]
+then
+   echo
+   echo "Busybox binary not found. Please install"
+   echo
+   exit
+fi
+availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $2 }'`
+if [ $availablemounts ]
+then
+   busybox mount -o remount,exec $availablemounts
+fi
+sleep 1
+sleep 1
+echo "Infecting System Sandbox..."
+busybox mount -o remount,rw -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+busybox mount -o rw,remount /system
+sleep 1
+echo "Disabling Residual Memory..."
+if [ $checkubuntu ]
+then
+   busybox umount $mnt/sdcard
+   busybox fuser -k $mnt
+   busybox umount $mnt
+fi
+sleep 1
+echo "Verifying Ext2buntu Services..."
+if [ $wgetcheck -lt 24000 ]
+then
+   busybox wget -O /system/xbin/wget http://twisted.dyndns.tv/ScriptFusion/binaryfiles/wget
+   chmod 755 /system/xbin/wget
+   echo
+fi
+sleep 1
+if [ $wgetcheck -gt 24000 ]
+then
+   
+ #!/system/bin/sh<<EOF 
+
+   if [ -e /system/bin/backubuntu ]
+   then
+      export filefresh=`busybox stat -c %Y /system/bin/backubuntu`
+      busybox clear
+      echo
+      echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
+      echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
+      cd /system/bin
+         if [ -e /system/bin/bootubuntu ]
+         then
+            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+         fi
+         if [ -e /system/bin/loopubuntu ]
+         then
+            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+         fi
+         wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/backubuntu
+      cd /
+      sleep 1
+      newcheck=`busybox stat -c %Y /system/bin/backubuntu`
+      if [ $newcheck -gt $filefresh ]
+      then
+      echo
+      echo "AutoUpdate Complete. Exiting..."
+      echo 'Restart by pressing <Up>, <Enter>'
+         sh /system/bin/backubuntu
+      exit
+      fi
+      
+   else
+      
+      export filefresh=`busybox stat -c %Y /sdcard/ext2ubuntu/backubuntu`
+      busybox clear
+      echo
+      echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
+      echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
+      cd /sdcard/ubuntu
+         if [ -e /sdcard/ext2ubuntu/bootubuntu ]
+         then
+            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+         fi
+         if [ -e /sdcard/ext2ubuntu/loopubuntu ]
+         then
+            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+         fi
+         wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/backubuntu
+      cd /
+      sleep 1
+      newcheck=`busybox stat -c %Y /sdcard/ext2ubuntu/backubuntu`
+      if [ $newcheck -gt $filefresh ]
+      then
+      echo
+      echo "AutoUpdate Complete. Exiting..."
+      echo 'Restart by pressing <Up>, <Enter>'
+         bash /sdcard/ubuntu/backubuntu
+      exit
+fi
+fi
+   EOF
+   
+   busybox clear
+fi
+
+while [ 1 ]; do
+   busybox clear
+   echo
+   echo "**********************************************"
+   echo "*              Ext2buntu Services             *"
+   echo "*                  Main Menu                 *"
+   echo "**********************************************"
+   echo
+   echo "Ext2buntu Service Menu"
+   echo "----------------------"
+   echo "1) Backup Services"
+   echo "2) Restore Services"
+   if [ ! -e /system/bin/ubuntu ]
+   then
+      echo "3) Update Scripts"
+   fi
+   echo "4) Configure Ubuntu"
+   echo
+   if [ ! -e /system/bin/ubuntu ]
+   then
+      echo "99) Sdcard Direct"
+   else
+      echo "99) System Install"
+   fi
+   echo
+   if [ ! -e /system/bin/ubuntu ]
+   then
+      if [ -e /system/bin/bootubuntu ]
+      then
+         echo "b) Launch bootubuntu"
+      fi
+      if [ -e /system/bin/loopubuntu ]
+      then
+         echo "p) Launch loopubuntu"
+      fi
+   else
+      echo "u) Launch Ubuntu"
+   fi
+   echo
+   echo "x) Reboot"
+   echo
+   echo "0) Exit"
+   echo
+   echo "Release `busybox stat -c %y /sdcard/ext2ubuntu/backubuntu | sed 's/\.000000000//'`"
+   echo "---"
+   echo -n "Please choose an option: "
+   read setcpupref
+   case $setcpupref in
+      1)
+         # backup
+         busybox clear
+         echo
+         echo "Ext2buntu Backup Menu"
+         echo "---------------------"
+         echo "1) Backup Partition"
+         echo "2) Backup Internal (Droid 2)"
+         if [ ! -e /system/bin/ubuntu ]
+         then
+            echo "3) Backup Scripts"
+         fi
+         echo
+         echo "0) Cancel"
+         echo
+         echo 'Release '`stat -c %y /sdcard/ext2ubuntu/backubuntu`
+         echo "---"
+         echo -n "Please choose an option: "
+         read setbackpref
+         case $setbackpref in
+            1)
+               # ext2
+               busybox clear
+               echo -n "Please name image: "
+               read imagename
+               if [ "imagename" != "" ]
+               then
+                  imagefull="/sdcard/ext2ubuntu/"$imagename".img"
+               else
+                  imagefull="/sdcard/ext2ubuntu/ubuntu2.img"
+               fi
+               echo
+               echo "Backup has been started. Be patient"
+               if [ ! -d /sdcard/ext2ubuntu ]
+               then
+                  mkdir /sdcard/ext2ubuntu
+               fi
+               echo " "
+               availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $3 }'`
+               if [ $availablemounts ]
+               then
+                  busybox dd if=/dev/block/vold/$availablemounts of=$imagefull
+               else
+                  echo "Partition NOT located. Process will fail"
+                  sleep 1
+               fi
+               echo
+               echo "Backup of ext2 Ubuntu completed"
+               echo
+            ;;
+            2)
+               # Droid2
+               busybox clear
+               echo -n "Please name image: "
+               read imagename
+               if [ "imagename" != "" ]
+               then
+                  imagefull="/sdcard/ext2ubuntu/"$imagename".img"
+               else
+                  imagefull="/sdcard/ext2ubuntu/ubuntu2.img"
+               fi
+               echo
+               echo "Backup has been started. Be patient"
+               if [ ! -d /sdcard/ext2ubuntu ]
+               then
+                  mkdir /sdcard/ext2ubuntu
+               fi
+               echo " "
+               busybox dd if=$mnt of=$imagefull
+               echo
+               echo "Backup of internal Ubuntu completed"
+               echo
+            ;;
+            3)
+               # scripts
+               busybox clear
+               echo
+               if [ -e /system/bin/bootubuntu ]
+               then
+                  cp /system/bin/bootubuntu /sdcard/ext2ubuntu/
+               fi
+               if [ -e /system/bin/loopubuntu ]
+               then
+                  cp /system/bin/loopubuntu /sdcard/ext2ubuntu/
+               fi
+               echo "Ubuntu boot script backup completed"
+               cp /system/bin/backubuntu /sdcard/ext2ubuntu/
+               echo
+               echo "Ubuntu options script backup completed"
+               echo
+               echo "Backup of Ubuntu scripts completed"
+               echo
+            ;;
+            *)
+            ;;
+         esac
+      ;;
+      2)
+         # restore
+         busybox clear
+         echo
+         echo "Ext2buntu Restore Menu"
+         echo "----------------------"
+         echo "1) Restore Partition"
+         echo "2) Restore Internal (Droid 2)"
+         if [ ! -e /system/bin/ubuntu ]
+         then
+            echo "3) Restore Scripts"
+         fi
+         echo
+         echo "0) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read setbackpref
+         case $setbackpref in
+            1)
+               # ext2
+               busybox clear
+               echo
+               echo "Select Image Name"
+               echo "-------------------"
+               #busybox find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+               n=1
+               for i in /sdcard/ext2ubuntu/*.img
+               do
+                  friendlyname=`busybox stat -c %n $i | busybox sed 's/\/sdcard\/ext2ubuntu\///'`
+                  echo $n': '$friendlyname
+                  n=`busybox expr $n + 1`
+               done
+               echo
+               echo "---"
+               echo -n "Please choose an image: "
+               read sysappsadd
+               if [ ! $sysappsadd == "" ]
+               then
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     if [ $n == $sysappsadd ]
+                     then
+                        echo
+                        echo "Restore has been started. Be patient"
+                        echo
+                        availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $3 }'`
+                        if [ $availablemounts ]
+                        then
+                           busybox dd if=$i of=/dev/block/vold/$availablemounts
+                        else
+                           echo
+                           echo "Partition NOT located. Process will fail"
+                           sleep 1
+                        fi
+                     fi
+                     n=`busybox expr $n + 1`
+                  done
+               fi
+               echo
+               echo "Restore of ext2 Ubuntu completed"
+               echo
+            ;;
+            2)
+               # Droid2
+               busybox clear
+               echo
+               echo "Select Image Name"
+               echo "-------------------"
+               #busybox find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+               n=1
+               for i in /sdcard/ext2ubuntu/*.img
+               do
+                  friendlyname=`busybox stat -c %n $i | busybox sed 's/\/sdcard\/ext2ubuntu\///'`
+                  echo $n': '$friendlyname
+                  n=`busybox expr $n + 1`
+               done
+               echo
+               echo "---"
+               echo -n "Please choose an image: "
+               read sysappsadd
+               if [ ! $sysappsadd == "" ]
+               then
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     if [ $n == $sysappsadd ]
+                     then
+                        echo
+                        echo "Restore has been started. Be patient"
+                        echo
+                        busybox dd if=$i of=$mnt
+                     fi
+                     n=`busybox expr $n + 1`
+                  done
+               fi
+               echo
+               echo "Restore of internal Ubuntu completed"
+               echo
+            ;;
+            3)
+               # scripts
+               busybox clear
+               echo
+               echo "Restore has been started. Be patient"
+               echo
+               if [ -e /sdcard/ext2ubuntu/bootubuntu ]
+               then
+                  cp /sdcard/ext2ubuntu/bootubuntu /system/bin/
+                  chmod 777 /system/bin/bootubuntu
+               fi
+               if [ -e /sdcard/ext2ubuntu/loopubuntu ]
+               then
+                  cp /sdcard/ext2ubuntu/loopubuntu /system/bin/
+                  chmod 777 /system/bin/loopubuntu
+               fi
+               echo "Ubuntu boot script installed"
+               cp /sdcard/ext2ubuntu/backubuntu /system/bin/
+               chmod 777 /system/bin/backubuntu
+               echo
+               echo "Ubuntu options script installed"
+               echo
+               echo "Restore of Ubuntu scripts completed"
+               echo
+            ;;
+            *)
+            ;;
+         esac
+      ;;
+      3)
+         # update
+         busybox clear
+         echo
+         echo "Update has been started. Be patient"
+         echo
+         if [ -e /system/bin/bootubuntu ]
+         then
+            cp /sdcard/ext2ubuntu/bootubuntu /system/bin/
+            chmod 777 /system/bin/bootubuntu
+         fi
+         if [ -e /system/bin/loopubuntu ]
+         then
+            cp /sdcard/ext2ubuntu/loopubuntu /system/bin/
+            chmod 777 /system/bin/loopubuntu
+         fi
+         echo "Ubuntu boot script installed"
+         cp /sdcard/ext2ubuntu/backubuntu /system/bin/
+         chmod 777 /system/bin/backubuntu
+         echo
+         echo "Ubuntu options script installed"
+         echo
+         echo "Update of Ubuntu scripts completed"
+         echo
+      ;;
+      4)
+         # configure
+         busybox clear
+         echo
+         export mnt=/data/ubuntu
+         if [ ! -d $mnt ]
+         then
+            mkdir $mnt
+            chmod 777 $mnt
+         fi
+         echo
+         echo "Ext2buntu Access Method"
+         echo "-----------------------"
+         echo "1) Partition (Ext2)"
+         echo "2) Loop (Mounted Image)"
+         echo "3) Internal (Droid 2)"
+         echo
+         echo "0) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose your installation: "
+         read installtype
+         case $installtype in
+            1)
+               # ext2
+               echo
+               echo "Mounting Ubuntu partition"
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $3 }'`
+                  if [ $availablemounts ]
+                  then
+                     busybox mount -o rw,noatime,nodiratime,nobh -t ext2 /dev/block/vold/$availablemounts $mnt
+                  else
+                     echo "Partition NOT located. Process will fail"
+                     sleep 1
+                  fi
+                  busybox mount -t devpts devpts $mnt/dev/pts
+                  busybox mount -t proc proc $mnt/proc
+                  busybox mount -t sysfs sysfs $mnt/sys
+                  busybox sysctl -w net.ipv4.ip_forward=1
+                  echo "nameserver 8.8.8.8" > $mnt/etc/resolv.conf
+                  echo "nameserver 8.8.4.4" >> $mnt/etc/resolv.conf
+                  echo "127.0.0.1 localhost" > $mnt/etc/hosts
+               fi
+            ;;
+            2)
+               # loop
+               echo
+               echo "Mounting Ubuntu partition"
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  export USER=root
+                  echo
+                  echo "Select Image Name"
+                  echo "-------------------"
+                  #busybox find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+                  n=1
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     friendlyname=`busybox stat -c %n $i | busybox sed 's/\/sdcard\/ext2ubuntu\///'`
+                     echo $n': '$friendlyname
+                     n=`busybox expr $n + 1`
+                  done
+                  echo
+                  echo "---"
+                  echo -n "Please choose an image: "
+                  read sysappsadd
+                  if [ ! $sysappsadd == "" ]
+                  then
+                     for i in /sdcard/ext2ubuntu/*.img
+                     do
+                        if [ $n == $sysappsadd ]
+                        then
+                           busybox mknod /dev/block/loop254 b 7 254
+                           busybox losetup /dev/block/loop254 $i
+                           busybox mount -t ext2 /dev/block/loop254 $mnt
+                        fi
+                        n=`busybox expr $n + 1`
+                     done
+                  fi
+                  busybox mount --bind /dev/pts $mnt/dev/pts
+                  busybox mount --bind /proc $mnt/proc
+                  busybox mount --bind /sys $mnt/sys
+                  busybox sysctl -w net.ipv4.ip_forward=1
+               fi
+            ;;
+            3)
+               # Droid2
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  busybox mount -t devpts devpts $mnt/dev/pts
+                  busybox mount -t proc proc $mnt/proc
+                  busybox mount -t sysfs sysfs $mnt/sys
+                  busybox sysctl -w net.ipv4.ip_forward=1
+                  echo "nameserver 8.8.8.8" > $mnt/etc/resolv.conf
+                  echo "nameserver 8.8.4.4" >> $mnt/etc/resolv.conf
+                  echo "127.0.0.1 localhost" > $mnt/etc/hosts
+               fi
+            ;;
+            *)
+            ;;
+         esac
+         echo
+         if [ -e $ifile ]
+         then
+            busybox rm -rf $ifile
+         fi
+         if [ -e $mnt/temp ]
+         then
+            busybox rm -rf $mnt/temp
+         fi
+         if [ -e $mnt/custom ]
+         then
+            busybox rm -rf $mnt/custom
+         fi
+         
+#!/system/bin/sh<<EOF 
+
+         installs () {
+            echo "/usr/bin/apt-get -y -q update" >> $ifile
+            echo "/usr/bin/apt-get -y -q install tightvncserver" >> $ifile
+            echo "export LANG=en_US.UTF-8" >> $ifile
+            echo "/usr/bin/apt-get -y -q install nano" >> $ifile
+            echo "/usr/bin/apt-get -y -q install gnome-core" >> $ifile
+            echo "/usr/bin/apt-get -y -q install openjdk-6-jdk" >> $ifile
+            echo "source /etc/profile" >> $ifile
+            echo "" >> $ifile
+         }
+         vnc () {
+            if [ ! -e $mnt/root/.bashrc.bak ]
+            then
+               cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+            fi
+            echo
+            echo -n "Please enter desired width (1200): "
+            read xwidth
+            echo -n "Please enter desired heigt (680): "
+            read xheight
+vncline=`busybox awk '/VNC\ Configuration/{print NR}' $mnt/root/.bashrc`
+if [ $vncline -gt 0 ]
+then
+busybox sed $vncline',13d'
+fi
+            echo "# VNC Configuration" > $bfile
+            echo "" >> $bfile
+            echo "export USER=root" >> $bfile
+            echo 'tightvncserver -kill :1' >> $bfile 
+            echo "cd /" >> $bfile
+            echo "rm -r -f tmp" >> $bfile
+            echo "mkdir tmp" >> $bfile
+            echo "cd /" >> $bfile
+            echo 'clear' >> $bfile 
+            echo 'vncserver -geometry '$xwidth'x'$xheight' -httpport 5901' >> $bfile
+            echo "echo" >> $bfile 
+            echo "" >> $bfile
+            chmod 777 $bfile
+            echo 'export USER=root' > $mnt/closesession
+            echo 'tightvncserver -kill :1' >> $mnt/closesession
+if [ -e /data/ubuntu/swapfile ]
+then
+               echo "swapoff /swapfile" >> $mnt/closesession
+fi
+            chmod 755 $mnt/closesession
+            echo
+         }
+ while [ 1 ]; do 
+         busybox clear
+         echo
+         echo "Ext2buntu Config Menu"
+         echo "---------------------"
+         echo "1) Install Packages"
+         echo "2) Configure VNC"
+         echo "3) Options 1 and 2"
+         echo "4) Activate Swap"
+         echo "5) User Command File"
+         echo
+         echo "99) Restore .bashrc"
+         echo "x) Cancel Changes"
+         echo
+         echo "0) Process"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read configtype
+         case $configtype in
+            1)
+               # install
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               installs
+               echo "export USER=root" >> $ifile
+               echo "vncserver -geometry 1200x680" >> $ifile
+            ;;
+            2)
+               # vnc
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               vnc
+            ;;
+            3)
+               # both
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               
+               installs
+               vnc
+               echo "export USER=root" >> $ifile
+               echo "vncserver -geometry 1200x680" >> $ifile
+            ;;
+            4)
+               # swap
+               ufile=$mnt/disableswap
+               if [ ! -e $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+               fi
+               
+               if [ -f $mnt/swapfile ]
+               then
+                  busybox rm -rf $mnt/swapfile
+               fi
+               if [ -f $mnt/disableswap ]
+               then
+                  busybox rm -rf $ufile
+               fi
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               echo
+               
+               echo "Creating swap. Please wait...."
+               echo
+               busybox dd if=/dev/zero of=/data/ubuntu/swapfile bs=1k count=100000 > /dev/null
+               busybox mkswap /data/ubuntu/swapfile > /dev/null
+               echo
+swapline=`busybox awk '/Swap\ Configuration/{print NR}' $mnt/root/.bashrc`
+if [ $swapline -gt 0 ]
+then
+busybox sed $swapline',15d'
+fi
+               echo "# Swap Configuration" > $bfile
+               echo "" >> $bfile
+               echo "cd /" >> $bfile
+               echo "if [ -e /data/ubuntu/swapfile ]" >> $bfile
+               echo "then" >> $bfile
+               echo "chmod 777 /swapfile" >> $bfile
+               echo "sleep 1" >> $bfile
+               echo "swapon /swapfile" >> $bfile
+               echo "fi" >> $bfile
+               echo "if [ ! -e /swapfile ]" >> $bfile
+               echo "then" >> $bfile
+               echo "sed -i /swapfile/d /closesession" >> $bfile
+               echo "fi" >> $bfile
+               echo "" >> $bfile
+               chmod 777 $bfile
+if [ -e $mnt/closesession ]
+then
+swapclose=`busybox grep -q -m 1 -F 'swapfile' $mnt/closesession`
+if [ $swapclose ]
+then
+busybox sed -i /swapfile/d $mnt/closesession
+fi
+               echo "swapoff /swapfile" >> $mnt/closesession
+else
+echo "swapoff /swapfile" > $mnt/closesession
+fi
+               chmod 777 $ufile
+            ;;
+            5)
+               # custom
+               echo
+               if [ ! -e $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+               fi
+               echo
+               echo "Please enter command filename: "
+               echo -n "/sdcard/ext2ubuntu/"
+               read command
+               cp /sdcard/ubuntu/$command $mnt/custom
+               chmod 777 $mnt/custom
+               echo "cat custom /root/.bashrc > temp " >> $ifile
+               echo "cp temp /root/.bashrc" >> $ifile
+            ;;
+            99)
+               # restore
+               echo
+               if [ -d $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc.bak $mnt/root/.bashrc
+                  busybox rm -rf $mnt/root/.bashrc.bak
+               fi
+            ;;
+x)
+if [ $checkubuntu ]
+then 
+busybox umount $mnt/dev/pts
+busybox umount $mnt/proc
+busybox umount $mnt/sys
+busybox fuser -k $mnt
+busybox umount $mnt
+fi
+sleep 1
+if [ -e /system/bin/backubuntu ]
+then
+sh /system/bin/backubuntu
+else
+bash /sdcard/ext2ubuntu/backubuntu
+fi
+exit
+busybox clear
+;;
+            *)
+         if [ -f /data/ubuntu/autoconfig ]
+         then
+            chmod 755 /data/ubuntu/autoconfig
+            busybox chroot $mnt autoconfig
+         fi
+         sleep 1
+         if [ -e $ifile ]
+         then
+            busybox rm -rf $ifile
+         fi
+         if [ -e $mnt/temp ]
+         then
+            busybox rm -rf $mnt/temp
+         fi
+         if [ -e $mnt/custom ]
+         then
+            busybox rm -rf $mnt/custom
+         fi
+if [ $checkubuntu ]
+then 
+busybox umount $mnt/dev/pts
+busybox umount $mnt/proc
+busybox umount $mnt/sys
+busybox fuser -k $mnt
+busybox umount $mnt
+fi
+sleep 1
+if [ -e /system/bin/backubuntu ]
+then
+sh /system/bin/backubuntu
+else
+bash /sdcard/ext2ubuntu/backubuntu
+fi
+exit
+busybox clear
+;;
+esac
+         echo
+   echo -n "Please hit Enter to continue:"
+   read key
+   done
+
+         EOF
+         
+      ;;
+      x)
+         busybox clear
+         echo
+         echo "Reboot Options Menu"
+         echo "---------------------"
+         echo "1) Normal"
+         echo "2) Recovery"
+         echo "3) Bootloader"
+         echo
+         echo "x) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read configtype
+         case $configtype in
+            1)
+               reboottype=`reboot`
+            ;;
+            2)
+               reboottype=`reboot recovery`
+            ;;
+            3)
+               reboottype=`reboot bootloader`
+            ;;
+            *)
+            ;;
+         esac
+         busybox clear
+         
+         echo "#####++#@#######';+######+##++'''+'+''':,..,..\`\`"
+         echo "#####'+@########''#++;+@+#####+#+';;'++:,,.,..\`\`"
+         echo "#####++@######+@++##++,,'@#+++#++++++;.,:,,,..\`\`"
+         echo "######+#######+#+++#+;:,\`\`+@#''++';''''..,,,..\`\`"
+         echo "######++######+#+++'':..\`..\`+#';'+';'''. ;::.\`\`\`"
+         echo "######+'@#####+#+':::..,:.\`\`\`\`;#+'''';;,\`\`;,,\`\`\`"
+         echo "######+'######++##,,.\`;:. +\`   \`;#+''';:,\`\`;,..\`"
+         echo "######+'+@####+''#'\`,',\`\`\`. \`\`\`,.\`;#''',.,\`\`;\`.\`"
+         echo "######+''#####+':+#'',\`.\`.\`\`\`\`..:;';'+#',..\`.:.\`"
+         echo "######+''+####+::'@@,......\`...,:+#+''''+:.. .\`\`"
+         echo "#####+#;''####''++###':,.::;::::,;';++';:':..\`\`\`"
+         echo "#####+#;''####''#',;+@@#;'++';:;,,,:::;;,,::..\` "
+         echo "#######;++####'++:;;+@@##@##@##: \`\`\`..:.,\`,,:.. "
+         echo "++####+;+#####'';'''@###++;#'+#'\` \`\`\` +.\` .:,:,\`"
+         echo "#+#####;'++@##;'':,@@#'+':+#:;'\`\`  ,  \` \` \`::::."
+         echo "##+####';::+##;::.:##+'#;':,,';        \` \` ,:::\`"
+         echo "#@;@##++:::;@#;,,..'+#;;;:::;#' \` . \`\` \` . \`:::\`"
+         echo "#@'+###+:,\`\`#+:,,:,:\`@#';'++###: \`#.    \`   :::."
+         echo "###;###+',\` :@,\`;': +'++++#@''@#\`      \` .. :::,"
+         echo "#@@'###+';\` \`@.  .,,:;;;;:,;@\`+@:  \`    .#:.;:;:"
+         echo "+#@#;###'+,  +. \`\`.,,::;::,:@.,@#\` \`  \`\`;+'''';:"
+         echo "###@:+##'+:\` .\`   \`\`.,,::,,.#,\`+#;    \`:++;+#';;"
+         echo "'++#''+#++;.  \`  \` \`\`.,,;:,:@;.;#'.\`..\`,:++;+'';"
+         echo ";+#++;'#+++.        \`\`.,;,;,#;..;#..,,\`''';++;';"
+         echo "'##'+';+++',     ;, .\`..:::;,.::.##\`..:;';;''';:"
+         echo "';;##';++++:\`    \` \` \`.,:,:,.,.\`;#+\` .+';+++';;;"
+         echo "+;'#'';'+++;\`      \` \`.,:::,,.,\`.'#.\`,:+'+#+';;;"
+         echo "+';''''''++;.       \`\`,,;;:,,,.,.;#,..,'++#';';;"
+         echo "++''''''''+'.        \`,,:,,,,.,..:#,\`\`.,;@#+''''"
+         echo "+++'''''''';.        \`,,::,,,,,..,#:..\`:####+++'"
+         echo "#+++'''''';:\`        \`::::,,,,,,.,#;\`\`,'@######+"
+         echo "####+''';;::\`        .,,,,,,,;.,..##.,'########+"
+         echo "#####+';;;::.      \`..,,,,,,,,,...:@';#########+"
+         echo "#####+';;;::.    \`:......,,,,,,,'.,#@##########+"
+         echo "@####++';:::.   \`\`\`..\`.....,,,,,:,,+@@#########+"
+         echo "@@@#++''';::,   .;,.\`\`\`\`.\`..,,,,::;+@@+#########"
+         echo "@@#+++'''''::,,:;;;.\`\` \`.::#':::;;+#+.+########+"
+         echo "@##++'+'''+';;;;';;,\`.:+':+::;:;''+#\`\`+########'"
+         echo "@##+++'''++++++''+':'#+;:':..:;;'+#,, @######++'"
+         echo "##++++'''++++####++#+''+;,.\`,;;'+#',,.######++';"
+         echo "##++++++++#####@#++'';';,..,;';'+':\`.'@####++'''"
+         echo "##++++++++#@@#@#@#+''';:,,;';;;'';;,,;####++''''"
+         echo "##++++++++#@@#@@#@##+'';;';::;'';:,\`\`'###+''''''"
+         echo "##+++++++#@@@@@@@#@#@#+'';::;';:::,.\`,@#+''''+++"
+         echo "##++++++#@@@@@@@@@@@@@#+'';;;;::;:..\`\`@++'''++++"
+         echo "##++++++#@@@@@@@@@@@###+'';;::;;:,.\`\` #''''''+++"
+         echo "##++++#+@@@@@@@@@@@@###+'';;;;;:,,.\`\` '''''''+++"
+         echo "##++++++@@@@@@@########+'';;;:::,.\` \` ;''''''+++"
+         sleep 1
+         if [ $reboottype ]
+         then
+            $reboottype
+         fi
+      ;;
+      99)
+         if [ ! -e /system/bin/ubuntu ]
+         then
+            if [ ! -e /system/xbin/bash ]
+            then
+               wget -O /system/xbin/bash http://twisted.dyndns.tv/Ext2buntu/bash
+               chmod 755 /system/xbin/bash
+               echo
+            fi
+            echo "#!/system/xbin/bash" > /system/bin/ubuntu
+            echo '' >> /system/bin/ubuntu
+            echo 'if [ "$1" == "launch" ]; then' >> /system/bin/ubuntu
+            echo '  cd /' >> /system/bin/ubuntu
+            if [ -e /system/bin/bootubuntu ]
+            then
+               echo '  bash /sdcard/ext2ubuntu/bootubuntu' >> /system/bin/ubuntu
+               busybox rm -rf /system/bin/bootubuntu
+            fi
+            if [ -e /system/bin/loopubuntu ]
+            then
+               echo '  bash /sdcard/ext2ubuntu/loopubuntu' >> /system/bin/ubuntu
+               busybox rm -rf /system/bin/bootubuntu
+            fi
+            busybox rm -rf /system/bin/backubuntu
+            echo 'elif [ "$1" == "console" ]; then' >> /system/bin/ubuntu
+            echo '  cd /' >> /system/bin/ubuntu
+            echo '  bash /sdcard/ext2ubuntu/backubuntu' >> /system/bin/ubuntu
+            echo 'else' >> /system/bin/ubuntu
+            echo '  echo "Usage: ubuntu launch|console"' >> /system/bin/ubuntu
+            echo '  #exit' >> /system/bin/ubuntu
+            echo 'fi' >> /system/bin/ubuntu
+            chmod 777 /system/bin/ubuntu
+            echo
+            echo "Scripts running direct from sdcard"
+            echo "Commands are ubuntu launch|console"
+         else
+            busybox clear
+            echo
+            echo "Install has been started. Be patient"
+            echo
+            if [ -e /sdcard/ext2ubuntu/bootubuntu ]
+            then
+               cp /sdcard/ext2ubuntu/bootubuntu /system/bin/
+               chmod 777 /system/bin/bootubuntu
+            fi
+            if [ -e /sdcard/ext2ubuntu/loopubuntu ]
+            then
+               cp /sdcard/ext2ubuntu/loopubuntu /system/bin/
+               chmod 777 /system/bin/loopubuntu
+            fi
+            echo "Ubuntu boot script installed"
+            cp /sdcard/ext2ubuntu/backubuntu /system/bin/
+            chmod 777 /system/bin/backubuntu
+            echo
+            echo "Ubuntu options script installed"
+            echo
+            echo "Install of Ubuntu scripts completed"
+            echo
+            busybox rm -rf /system/bin/ubuntu
+         fi
+      ;;
+      b)
+#!/system/bin/sh<<EOF
+         sh /system/bin/bootubuntu
+exit
+         EOF
+      ;;
+      p)
+#!/system/bin/sh<<EOF
+         sh /system/bin/loopubuntu
+exit
+         EOF
+      ;;
+      u)
+#!/system/bin/sh<<EOF
+         sh /system/bin/ubuntu launch
+exit
+         EOF
+      ;;
+      *)
+         echo
+         echo "Remounting system partition as read-only"
+         busybox mount -o ro,remount /system
+         busybox mount -o remount,ro -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+         echo
+         echo "Exiting Ext2buntu Services. Thank You!"
+         echo
+         sleep 1
+         busybox clear
+         echo
+         exit
+      ;;
+   esac
+   
+   echo
+   echo -n "Please hit Enter to continue"
+   read key
+done

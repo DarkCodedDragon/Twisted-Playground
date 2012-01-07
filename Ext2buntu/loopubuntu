@@ -1,0 +1,102 @@
+export kit=/sdcard/ext2ubuntu
+export bin=/system/bin
+export mnt=/data/ubuntu
+export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+export TERM=linux
+export HOME=/root
+export USER=root
+
+busybox clear
+echo
+
+if [ ! -e /system/xbin/busybox ]
+then
+   echo "Busybox binary not found. Please install"
+   echo
+   exit
+fi
+
+if [ ! -d $mnt ]
+then
+   mkdir $mnt
+   chmod 777 $mnt
+fi
+
+busybox mount -o remount,rw -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+busybox mount -o rw,remount /system
+if [ ! -d /system/sd-ext ]
+then
+   mkdir /system/sd-ext
+   chmod 777 /system/sd-ext
+   ln -s $mnt /system/sd-ext
+fi
+busybox mount -o ro,remount /system
+busybox mount -o remount,rw -t yaffs2 `busybox grep /system /proc/mounts | busybox cut -d' ' -f1` /system
+
+echo
+echo "Select Image Name"
+echo "-------------------"
+#busybox find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+n=1
+for i in /sdcard/ext2ubuntu/*.img
+do
+   friendlyname=`busybox stat -c %n $i | busybox sed 's/\/sdcard\/ext2ubuntu\///'`
+   echo $n': '$friendlyname
+   n=`busybox expr $n + 1`
+done
+echo
+echo "---"
+echo -n "Please choose an image: "
+read sysappsadd
+if [ ! $sysappsadd == "" ]
+then
+   for i in /sdcard/ext2ubuntu/*.img
+   do
+      if [ $n == $sysappsadd ]
+      then
+         busybox mknod /dev/block/loop254 b 7 254
+         busybox losetup /dev/block/loop254 $i
+         busybox mount -t ext2 /dev/block/loop254 $mnt
+      fi
+      n=`busybox expr $n + 1`
+   done
+fi
+
+
+if [ ! -d $mnt/sdcard ]
+then
+   mkdir $mnt/sdcard
+   chmod 777 $mnt/sdcard
+fi
+
+availablemounts=`busybox ls -x /dev/block/vold | busybox awk '{ print $2 }'`
+if [ $availablemounts ]
+then
+   busybox mount -o rw,noatime,nodiratime,nobh -t vfat /dev/block/vold/$availablemounts $mnt/sdcard
+   chmod 777 $mnt/sdcard/*
+fi
+
+busybox mount --bind /dev/pts $mnt/dev/pts
+busybox mount --bind /proc $mnt/proc
+busybox mount --bind /sys $mnt/sys
+
+busybox sysctl -w net.ipv4.ip_forward=1
+
+busybox clear
+
+busybox chroot $mnt /bin/bash
+
+echo " "
+
+if [ -e /data/ubuntu/closesession ]
+then
+   busybox chroot $mnt closesession
+fi
+sleep 1
+busybox umount $mnt/sdcard
+busybox umount $mnt/dev/pts
+busybox umount $mnt/proc
+busybox umount $mnt/sys
+busybox umount $mnt
+busybox clear
+echo

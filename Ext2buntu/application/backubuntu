@@ -1,0 +1,945 @@
+#!/system/bin/sh
+
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+wgetfusion="/data/data/com.fusion.tbolt/files/wget"
+checkubuntu=`$busyfusion mountpoint /data/ubuntu | $busyfusion  grep -F "not" -q`
+export mnt=/data/ubuntu
+export ifile=$mnt/autoconfig
+export vfile=$mnt/root/bashvnc
+export sfile=$mnt/root/bashswap
+
+reboot='1'
+
+cd /
+
+echo
+echo "HiJacking Console Sanity..."
+$busyfusion mount -o remount,rw -t yaffs2 `$busyfusion grep /system /proc/mounts | $busyfusion cut -d' ' -f1` /system
+$busyfusion mount -o rw,remount /system
+
+if [ ! -d /data/data/com.fusion.tbolt/files/ext2buntu ]
+then
+   mkdir /data/data/com.fusion.tbolt/files/ext2buntu
+fi
+if [ ! -d /sdcard/ext2ubuntu ]
+then
+   mkdir /sdcard/ext2ubuntu
+fi
+sleep 1
+echo "Disabling Residual Memory..."
+if [ $checkubuntu ]
+then
+   $busyfusion umount $mnt/sdcard
+   $busyfusion fuser -k $mnt
+   $busyfusion umount $mnt
+fi
+sleep 1
+echo "Verifying Ext2buntu Services..."
+
+ #!/system/bin/sh<<EOF 
+
+   if [ -e /system/bin/backubuntu ]
+   then
+      export filefresh=`$busyfusion stat -c %Y /system/bin/backubuntu`
+      $busyfusion clear
+      echo
+      echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
+      echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
+      cd /system/bin
+         if [ -e /system/bin/bootubuntu ]
+         then
+             $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+         fi
+         if [ -e /system/bin/loopubuntu ]
+         then
+            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+         fi
+         $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+      cd /
+      sleep 1
+      newcheck=`$busyfusion stat -c %Y /system/bin/backubuntu`
+      if [ $newcheck -gt $filefresh ]
+      then
+      echo
+      echo "AutoUpdate Complete. Exiting..."
+      echo 'Restart by pressing <Up>, <Enter>'
+         $busyfusion sh /system/bin/backubuntu
+      exit
+      fi
+      
+   else
+      
+      export filefresh=`$busyfusion stat -c %Y /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu`
+      $busyfusion clear
+      echo
+      echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
+      echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
+      cd /sdcard/ubuntu
+         if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu ]
+         then
+            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+         fi
+         if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu ]
+         then
+            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+         fi
+         $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+      cd /
+      sleep 1
+      newcheck=`$busyfusion stat -c %Y /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu`
+      if [ $newcheck -gt $filefresh ]
+      then
+      echo
+      echo "AutoUpdate Complete. Exiting..."
+      echo 'Restart by pressing <Up>, <Enter>'
+         $busyfusion sh /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu
+      exit
+fi
+fi
+EOF
+
+$busyfusion clear
+
+while [ 1 ]; do
+   $busyfusion clear
+   echo
+   echo "**********************************************"
+   echo "*              Ext2buntu Services             *"
+   echo "*                  Main Menu                 *"
+   echo "**********************************************"
+   echo
+   echo "Ext2buntu Service Menu"
+   echo "----------------------"
+   echo "1) Backup Services"
+   echo "2) Restore Services"
+   if [ ! -e /system/bin/ubuntu ]
+   then
+      echo "3) Update Scripts"
+   fi
+   echo "4) Configure Ubuntu"
+   echo
+   if [ -e /system/bin/bootubuntu ]
+   then
+      echo "99) Internal Direct"
+   else
+      echo "99) System Install"
+   fi
+   if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu ]
+   then
+      echo
+      if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu ]
+      then
+         echo "b) Launch bootubuntu"
+      fi
+      if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu ]
+      then
+         echo "p) Launch loopubuntu"
+      fi
+   fi
+   echo
+   echo "x) Reboot"
+   echo
+   echo "0) Exit"
+   echo
+   echo "Release `$busyfusion stat -c %y /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu | sed 's/\.000000000//'`"
+   echo "---"
+   echo -n "Please choose an option: "
+   read setcpupref
+   case $setcpupref in
+      1)
+         # backup
+         $busyfusion clear
+         echo
+         echo "Ext2buntu Backup Menu"
+         echo "---------------------"
+         echo "1) Backup Partition"
+         echo "2) Backup Internal (Droid 2)"
+         if [ ! -e /system/bin/ubuntu ]
+         then
+            echo "3) Backup Scripts"
+         fi
+         echo
+         echo "0) Cancel"
+         echo
+         echo 'Release '`stat -c %y /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu`
+         echo "---"
+         echo -n "Please choose an option: "
+         read setbackpref
+         case $setbackpref in
+            1)
+               # ext2
+               $busyfusion clear
+               echo -n "Please name image: "
+               read imagename
+               if [ "imagename" != "" ]
+               then
+                  imagefull="/sdcard/ext2ubuntu/"$imagename".img"
+               else
+                  imagefull="/sdcard/ext2ubuntu/ubuntu2.img"
+               fi
+               echo
+               echo "Backup has been started. Be patient"
+               if [ ! -d /sdcard/ext2ubuntu ]
+               then
+                  mkdir /sdcard/ext2ubuntu
+               fi
+               echo " "
+               availablemounts=`$busyfusion ls -x /dev/block/vold | $busyfusion awk '{ print $3 }'`
+               if [ $availablemounts ]
+               then
+                  $busyfusion dd if=/dev/block/vold/$availablemounts of=$imagefull
+               else
+                  echo "Partition NOT located. Process will fail"
+                  sleep 1
+               fi
+               echo
+               echo "Backup of ext2 Ubuntu completed"
+               echo
+            ;;
+            2)
+               # Droid2
+               $busyfusion clear
+               echo -n "Please name image: "
+               read imagename
+               if [ "imagename" != "" ]
+               then
+                  imagefull="/sdcard/ext2ubuntu/"$imagename".img"
+               else
+                  imagefull="/sdcard/ext2ubuntu/ubuntu2.img"
+               fi
+               echo
+               echo "Backup has been started. Be patient"
+               if [ ! -d /sdcard/ext2ubuntu ]
+               then
+                  mkdir /sdcard/ext2ubuntu
+               fi
+               echo " "
+               $busyfusion dd if=$mnt of=$imagefull
+               echo
+               echo "Backup of internal Ubuntu completed"
+               echo
+            ;;
+            3)
+               # scripts
+               $busyfusion clear
+               echo
+               if [ -e /system/bin/bootubuntu ]
+               then
+                  cp /system/bin/bootubuntu /data/data/com.fusion.tbolt/files/ext2buntu/
+               fi
+               if [ -e /system/bin/loopubuntu ]
+               then
+                  cp /system/bin/loopubuntu /data/data/com.fusion.tbolt/files/ext2buntu/
+               fi
+               echo "Ubuntu boot script backup completed"
+               cp /system/bin/backubuntu /data/data/com.fusion.tbolt/files/ext2buntu/
+               echo
+               echo "Ubuntu options script backup completed"
+               echo
+               echo "Backup of Ubuntu scripts completed"
+               echo
+            ;;
+            *)
+            ;;
+         esac
+      ;;
+      2)
+         # restore
+         $busyfusion clear
+         echo
+         echo "Ext2buntu Restore Menu"
+         echo "----------------------"
+         echo "1) Restore Partition"
+         echo "2) Restore Internal (Droid 2)"
+         if [ ! -e /system/bin/ubuntu ]
+         then
+            echo "3) Restore Scripts"
+         fi
+         echo
+         echo "0) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read setbackpref
+         case $setbackpref in
+            1)
+               # ext2
+               $busyfusion clear
+               echo
+               echo "Select Image Name"
+               echo "-------------------"
+               #$busyfusion find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+               n=1
+               for i in /sdcard/ext2ubuntu/*.img
+               do
+                  friendlyname=`$busyfusion stat -c %n $i | $busyfusion sed 's/\/sdcard\/ext2ubuntu\///'`
+                  echo $n': '$friendlyname
+                  n=`$busyfusion expr $n + 1`
+               done
+               echo
+               echo "---"
+               echo -n "Please choose an image: "
+               read sysappsadd
+               if [ ! $sysappsadd == "" ]
+               then
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     if [ $n == $sysappsadd ]
+                     then
+                        echo
+                        echo "Restore has been started. Be patient"
+                        echo
+                        availablemounts=`$busyfusion ls -x /dev/block/vold | $busyfusion awk '{ print $3 }'`
+                        if [ $availablemounts ]
+                        then
+                           $busyfusion dd if=$i of=/dev/block/vold/$availablemounts
+                        else
+                           echo
+                           echo "Partition NOT located. Process will fail"
+                           sleep 1
+                        fi
+                     fi
+                     n=`$busyfusion expr $n + 1`
+                  done
+               fi
+               echo
+               echo "Restore of ext2 Ubuntu completed"
+               echo
+            ;;
+            2)
+               # Droid2
+               $busyfusion clear
+               echo
+               echo "Select Image Name"
+               echo "-------------------"
+               #$busyfusion find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+               n=1
+               for i in /sdcard/ext2ubuntu/*.img
+               do
+                  friendlyname=`$busyfusion stat -c %n $i | $busyfusion sed 's/\/sdcard\/ext2ubuntu\///'`
+                  echo $n': '$friendlyname
+                  n=`$busyfusion expr $n + 1`
+               done
+               echo
+               echo "---"
+               echo -n "Please choose an image: "
+               read sysappsadd
+               if [ ! $sysappsadd == "" ]
+               then
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     if [ $n == $sysappsadd ]
+                     then
+                        echo
+                        echo "Restore has been started. Be patient"
+                        echo
+                        $busyfusion dd if=$i of=$mnt
+                     fi
+                     n=`$busyfusion expr $n + 1`
+                  done
+               fi
+               echo
+               echo "Restore of internal Ubuntu completed"
+               echo
+            ;;
+            3)
+               # scripts
+               $busyfusion clear
+               echo
+               echo "Restore has been started. Be patient"
+               echo
+               if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu ]
+               then
+                  cp /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu /system/bin/
+                  chmod 777 /system/bin/bootubuntu
+               fi
+               if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu ]
+               then
+                  cp /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu /system/bin/
+                  chmod 777 /system/bin/loopubuntu
+               fi
+               echo "Ubuntu boot script installed"
+               cp /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu /system/bin/
+               chmod 777 /system/bin/backubuntu
+               echo
+               echo "Ubuntu options script installed"
+               echo
+               echo "Restore of Ubuntu scripts completed"
+               echo
+            ;;
+            *)
+            ;;
+         esac
+      ;;
+      3)
+         # update
+         $busyfusion clear
+         echo
+         echo "Update has been started. Be patient"
+         echo
+         if [ -e /system/bin/bootubuntu ]
+         then
+            cp /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu /system/bin/
+            chmod 777 /system/bin/bootubuntu
+         fi
+         if [ -e /system/bin/loopubuntu ]
+         then
+            cp /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu /system/bin/
+            chmod 777 /system/bin/loopubuntu
+         fi
+         echo "Ubuntu boot script installed"
+         cp /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu /system/bin/
+         chmod 777 /system/bin/backubuntu
+         echo
+         echo "Ubuntu options script installed"
+         echo
+         echo "Update of Ubuntu scripts completed"
+         echo
+      ;;
+      4)
+         # configure
+         $busyfusion clear
+         echo
+         export mnt=/data/ubuntu
+         if [ ! -d $mnt ]
+         then
+            mkdir $mnt
+            chmod 777 $mnt
+         fi
+         echo
+         echo "Ext2buntu Access Method"
+         echo "-----------------------"
+         echo "1) Partition (Ext2)"
+         echo "2) Loop (Mounted Image)"
+         echo "3) Internal (Droid 2)"
+         echo
+         echo "0) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose your installation: "
+         read installtype
+         case $installtype in
+            1)
+               # ext2
+               echo
+               echo "Mounting Ubuntu partition"
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  availablemounts=`$busyfusion ls -x /dev/block/vold | $busyfusion awk '{ print $3 }'`
+                  if [ $availablemounts ]
+                  then
+                     $busyfusion mount -o rw,noatime,nodiratime,nobh -t ext2 /dev/block/vold/$availablemounts $mnt
+                  else
+                     echo "Partition NOT located. Process will fail"
+                     sleep 1
+                  fi
+                  $busyfusion mount -t devpts devpts $mnt/dev/pts
+                  $busyfusion mount -t proc proc $mnt/proc
+                  $busyfusion mount -t sysfs sysfs $mnt/sys
+                  $busyfusion sysctl -w net.ipv4.ip_forward=1
+                  echo "nameserver 8.8.8.8" > $mnt/etc/resolv.conf
+                  echo "nameserver 8.8.4.4" >> $mnt/etc/resolv.conf
+                  echo "127.0.0.1 localhost" > $mnt/etc/hosts
+               fi
+            ;;
+            2)
+               # loop
+               echo
+               echo "Mounting Ubuntu partition"
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  export USER=root
+                  echo
+                  echo "Select Image Name"
+                  echo "-------------------"
+                  #$busyfusion find /sdcard/ext2ubuntu/ -maxdepth 1 -type f
+                  n=1
+                  for i in /sdcard/ext2ubuntu/*.img
+                  do
+                     friendlyname=`$busyfusion stat -c %n $i | $busyfusion sed 's/\/sdcard\/ext2ubuntu\///'`
+                     echo $n': '$friendlyname
+                     n=`$busyfusion expr $n + 1`
+                  done
+                  echo
+                  echo "---"
+                  echo -n "Please choose an image: "
+                  read sysappsadd
+                  if [ ! $sysappsadd == "" ]
+                  then
+                     for i in /sdcard/ext2ubuntu/*.img
+                     do
+                        if [ $n == $sysappsadd ]
+                        then
+                           $busyfusion mknod /dev/block/loop254 b 7 254
+                           $busyfusion losetup /dev/block/loop254 $i
+                           $busyfusion mount -t ext2 /dev/block/loop254 $mnt
+                        fi
+                        n=`$busyfusion expr $n + 1`
+                     done
+                  fi
+                  $busyfusion mount --bind /dev/pts $mnt/dev/pts
+                  $busyfusion mount --bind /proc $mnt/proc
+                  $busyfusion mount --bind /sys $mnt/sys
+                  $busyfusion sysctl -w net.ipv4.ip_forward=1
+               fi
+            ;;
+            3)
+               # Droid2
+               if [ ! $checkubuntu ]
+               then
+                  export kit=/sdcard/ext2ubuntu
+                  export bin=/system/bin
+                  export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
+                  export TERM=linux
+                  export HOME=/root
+                  $busyfusion mount -t devpts devpts $mnt/dev/pts
+                  $busyfusion mount -t proc proc $mnt/proc
+                  $busyfusion mount -t sysfs sysfs $mnt/sys
+                  $busyfusion sysctl -w net.ipv4.ip_forward=1
+                  echo "nameserver 8.8.8.8" > $mnt/etc/resolv.conf
+                  echo "nameserver 8.8.4.4" >> $mnt/etc/resolv.conf
+                  echo "127.0.0.1 localhost" > $mnt/etc/hosts
+               fi
+            ;;
+            *)
+            ;;
+         esac
+         echo
+         if [ -e $ifile ]
+         then
+            $busyfusion rm -rf $ifile
+         fi
+         if [ -e $mnt/temp ]
+         then
+            $busyfusion rm -rf $mnt/temp
+         fi
+         if [ -e $mnt/custom ]
+         then
+            $busyfusion rm -rf $mnt/custom
+         fi
+         
+#!/system/bin/sh<<EOF 
+
+         installs () {
+            echo "/usr/bin/apt-get -y -q update" >> $ifile
+            echo "/usr/bin/apt-get -y -q install tightvncserver" >> $ifile
+            echo "export LANG=en_US.UTF-8" >> $ifile
+            echo "/usr/bin/apt-get -y -q install nano" >> $ifile
+            echo "/usr/bin/apt-get -y -q install gnome-core" >> $ifile
+            echo "/usr/bin/apt-get -y -q install openjdk-6-jdk" >> $ifile
+            echo "source /etc/profile" >> $ifile
+            echo "" >> $ifile
+         }
+         vnc () {
+            if [ ! -e $mnt/root/.bashrc.bak ]
+            then
+               cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+            else
+               cp $mnt/root/.bashrc.bak $mnt/root/.bashrc
+            fi
+            echo
+            echo -n "Please enter desired width (1200): "
+            read xwidth
+            echo -n "Please enter desired heigt (680): "
+            read xheight
+            echo "# VNC Configuration" > $vfile
+            echo "" >> $vfile
+            echo "export USER=root" >> $vfile
+            echo 'tightvncserver -kill :1' >> $vfile 
+            echo "cd /" >> $vfile
+            echo "rm -r -f tmp" >> $vfile
+            echo "mkdir tmp" >> $vfile
+            echo "cd /" >> $vfile
+            echo 'clear' >> $vfile 
+            echo 'vncserver -geometry '$xwidth'x'$xheight' -httpport 5901' >> $vfile
+            echo "echo" >> $vfile 
+            echo "" >> $vfile
+            chmod 777 $vfile
+            echo 'export USER=root' > $mnt/closesession
+            echo 'tightvncserver -kill :1' >> $mnt/closesession
+if [ -e /data/ubuntu/swapfile ]
+then
+               echo "swapoff /swapfile" >> $mnt/closesession
+fi
+            chmod 755 $mnt/closesession
+            echo "cat /root/bashvnc /root/.bashrc > temp" >> $ifile
+            echo "if [ -f /root/bashrcswap ]" >> $ifile
+            echo "then" >> $ifile
+            echo "cat /root/bashswap temp > /root/.bashrc " >> $ifile
+            echo "else" >> $ifile
+            echo "cp temp /root/.bashrc" >> $ifile
+            echo "fi" >> $ifile
+            echo "" >> $ifile
+            echo
+         }
+ while [ 1 ]; do 
+         $busyfusion clear
+         echo
+         echo "Ext2buntu Config Menu"
+         echo "---------------------"
+         echo "1) Install Packages"
+         echo "2) Configure VNC"
+         echo "3) Options 1 and 2"
+         echo "4) Activate Swap"
+         echo "5) User Command File"
+         echo
+         echo "99) Restore .bashrc"
+         echo "x) Cancel Changes"
+         echo
+         echo "0) Process"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read configtype
+         case $configtype in
+            1)
+               # install
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               installs
+               echo "export USER=root" >> $ifile
+               echo "vncserver -geometry 1200x680" >> $ifile
+            ;;
+            2)
+               # vnc
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               vnc
+            ;;
+            3)
+               # both
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               
+               installs
+               vnc
+               echo "export USER=root" >> $ifile
+               echo "vncserver -geometry 1200x680" >> $ifile
+            ;;
+            4)
+               # swap
+               ufile=$mnt/disableswap
+               if [ ! -e $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+               else
+                  cp $mnt/root/.bashrc.bak $mnt/root/.bashrc
+               fi
+               
+               if [ -f $mnt/swapfile ]
+               then
+                  $busyfusion rm -rf $mnt/swapfile
+               fi
+               if [ -f $mnt/disableswap ]
+               then
+                  $busyfusion rm -rf $ufile
+               fi
+               echo "# User Configuration" > $ifile
+               echo "" >> $ifile
+               echo
+               
+               echo "Creating swap. Please wait...."
+               echo
+               $busyfusion dd if=/dev/zero of=/data/ubuntu/swapfile bs=1k count=100000 > /dev/null
+               $busyfusion mkswap /data/ubuntu/swapfile > /dev/null
+               echo
+               echo "# Swap Configuration" > $sfile
+               echo "" >> $sfile
+               echo "cd /" >> $sfile
+               echo "if [ -e /data/ubuntu/swapfile ]" >> $sfile
+               echo "then" >> $sfile
+               echo "chmod 777 /swapfile" >> $sfile
+               echo "sleep 1" >> $sfile
+               echo "swapon /swapfile" >> $sfile
+               echo "fi" >> $sfile
+               echo "if [ ! -e /swapfile ]" >> $sfile
+               echo "then" >> $sfile
+               echo "sed -i /swapfile/d /closesession" >> $sfile
+               echo "fi" >> $sfile
+               echo "" >> $sfile
+               chmod 777 $sfile
+if [ -e $mnt/closesession ]
+then
+swapclose=`$busyfusion grep -q -m 1 -F 'swapfile' $mnt/closesession`
+if [ $swapclose ]
+then
+$busyfusion sed -i /swapfile/d $mnt/closesession
+fi
+               echo "swapoff /swapfile" >> $mnt/closesession
+else
+echo "swapoff /swapfile" > $mnt/closesession
+fi
+               chmod 777 $ufile
+               echo "" >> $ifile
+               echo "cat /root/bashswap /root/.bashrc > temp" >> $ifile
+               echo "if [ -f /root/bashvnc ]" >> $ifile
+               echo "then" >> $ifile
+               echo "cat /root/bashvnc temp > /root/.bashrc " >> $ifile
+               echo "else" >> $ifile
+               echo "cp temp /root/.bashrc" >> $ifile
+               echo "fi" >> $ifile
+            ;;
+            5)
+               # custom
+               echo
+               if [ ! -e $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc $mnt/root/.bashrc.bak
+               else
+                  cp $mnt/root/.bashrc.bak $mnt/root/.bashrc
+               fi
+               echo
+               echo "Please enter command filename: "
+               echo -n "/sdcard/ext2ubuntu/"
+               read command
+               cp /sdcard/ubuntu/$command $mnt/custom
+               chmod 777 $mnt/custom
+               echo "if [ -f /root/bashrcswap ]" >> $ifile
+               echo "then" >> $ifile
+               echo "cat /root/bashswap custom > temp " >> $ifile
+               echo "else" >> $ifile
+               echo "cat custom /root/.bashrc > temp " >> $ifile
+               echo "fi" >> $ifile
+               echo "if [ -f /root/bashvnc ]" >> $ifile
+               echo "then" >> $ifile
+               echo "cat /root/bashvnc temp > /root/.bashrc " >> $ifile
+               echo "else" >> $ifile
+               echo "cp temp /root/.bashrc" >> $ifile
+               echo "fi" >> $ifile
+            ;;
+            99)
+               # restore
+               echo
+               if [ -d $mnt/root/.bashrc.bak ]
+               then
+                  cp $mnt/root/.bashrc.bak $mnt/root/.bashrc
+                  $busyfusion rm -rf $mnt/root/.bashrc.bak
+               fi
+            ;;
+x)
+if [ $checkubuntu ]
+then 
+$busyfusion umount $mnt/dev/pts
+$busyfusion umount $mnt/proc
+$busyfusion umount $mnt/sys
+$busyfusion fuser -k $mnt
+$busyfusion umount $mnt
+fi
+sleep 1
+if [ -e /system/bin/backubuntu ]
+then
+sh /system/bin/backubuntu
+else
+bash /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu
+fi
+exit
+$busyfusion clear
+;;
+            *)
+         if [ -f /data/ubuntu/autoconfig ]
+         then
+            chmod 755 /data/ubuntu/autoconfig
+            $busyfusion chroot $mnt autoconfig
+         fi
+         sleep 1
+         if [ -e $ifile ]
+         then
+            $busyfusion rm -rf $ifile
+         fi
+         if [ -e $mnt/temp ]
+         then
+            $busyfusion rm -rf $mnt/temp
+         fi
+         if [ -e $mnt/custom ]
+         then
+            $busyfusion rm -rf $mnt/custom
+         fi
+if [ $checkubuntu ]
+then 
+$busyfusion umount $mnt/dev/pts
+$busyfusion umount $mnt/proc
+$busyfusion umount $mnt/sys
+$busyfusion fuser -k $mnt
+$busyfusion umount $mnt
+fi
+sleep 1
+if [ -e /system/bin/backubuntu ]
+then
+sh /system/bin/backubuntu
+else
+bash /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu
+fi
+exit
+$busyfusion clear
+;;
+esac
+         echo
+   echo -n "Please hit Enter to continue:"
+   read key
+   done
+
+         EOF
+         
+      ;;
+      x)
+         $busyfusion clear
+         echo
+         echo "Reboot Options Menu"
+         echo "---------------------"
+         echo "1) Normal"
+         echo "2) Recovery"
+         echo "3) Bootloader"
+         echo
+         echo "x) Cancel"
+         echo
+         echo "---"
+         echo -n "Please choose an option: "
+         read configtype
+         case $configtype in
+            1)
+               reboottype=`reboot`
+            ;;
+            2)
+               reboottype=`reboot recovery`
+            ;;
+            3)
+               reboottype=`reboot bootloader`
+            ;;
+            *)
+            ;;
+         esac
+         $busyfusion clear
+         
+         echo "#####++#@#######';+######+##++'''+'+''':,..,..\`\`"
+         echo "#####'+@########''#++;+@+#####+#+';;'++:,,.,..\`\`"
+         echo "#####++@######+@++##++,,'@#+++#++++++;.,:,,,..\`\`"
+         echo "######+#######+#+++#+;:,\`\`+@#''++';''''..,,,..\`\`"
+         echo "######++######+#+++'':..\`..\`+#';'+';'''. ;::.\`\`\`"
+         echo "######+'@#####+#+':::..,:.\`\`\`\`;#+'''';;,\`\`;,,\`\`\`"
+         echo "######+'######++##,,.\`;:. +\`   \`;#+''';:,\`\`;,..\`"
+         echo "######+'+@####+''#'\`,',\`\`\`. \`\`\`,.\`;#''',.,\`\`;\`.\`"
+         echo "######+''#####+':+#'',\`.\`.\`\`\`\`..:;';'+#',..\`.:.\`"
+         echo "######+''+####+::'@@,......\`...,:+#+''''+:.. .\`\`"
+         echo "#####+#;''####''++###':,.::;::::,;';++';:':..\`\`\`"
+         echo "#####+#;''####''#',;+@@#;'++';:;,,,:::;;,,::..\` "
+         echo "#######;++####'++:;;+@@##@##@##: \`\`\`..:.,\`,,:.. "
+         echo "++####+;+#####'';'''@###++;#'+#'\` \`\`\` +.\` .:,:,\`"
+         echo "#+#####;'++@##;'':,@@#'+':+#:;'\`\`  ,  \` \` \`::::."
+         echo "##+####';::+##;::.:##+'#;':,,';        \` \` ,:::\`"
+         echo "#@;@##++:::;@#;,,..'+#;;;:::;#' \` . \`\` \` . \`:::\`"
+         echo "#@'+###+:,\`\`#+:,,:,:\`@#';'++###: \`#.    \`   :::."
+         echo "###;###+',\` :@,\`;': +'++++#@''@#\`      \` .. :::,"
+         echo "#@@'###+';\` \`@.  .,,:;;;;:,;@\`+@:  \`    .#:.;:;:"
+         echo "+#@#;###'+,  +. \`\`.,,::;::,:@.,@#\` \`  \`\`;+'''';:"
+         echo "###@:+##'+:\` .\`   \`\`.,,::,,.#,\`+#;    \`:++;+#';;"
+         echo "'++#''+#++;.  \`  \` \`\`.,,;:,:@;.;#'.\`..\`,:++;+'';"
+         echo ";+#++;'#+++.        \`\`.,;,;,#;..;#..,,\`''';++;';"
+         echo "'##'+';+++',     ;, .\`..:::;,.::.##\`..:;';;''';:"
+         echo "';;##';++++:\`    \` \` \`.,:,:,.,.\`;#+\` .+';+++';;;"
+         echo "+;'#'';'+++;\`      \` \`.,:::,,.,\`.'#.\`,:+'+#+';;;"
+         echo "+';''''''++;.       \`\`,,;;:,,,.,.;#,..,'++#';';;"
+         echo "++''''''''+'.        \`,,:,,,,.,..:#,\`\`.,;@#+''''"
+         echo "+++'''''''';.        \`,,::,,,,,..,#:..\`:####+++'"
+         echo "#+++'''''';:\`        \`::::,,,,,,.,#;\`\`,'@######+"
+         echo "####+''';;::\`        .,,,,,,,;.,..##.,'########+"
+         echo "#####+';;;::.      \`..,,,,,,,,,...:@';#########+"
+         echo "#####+';;;::.    \`:......,,,,,,,'.,#@##########+"
+         echo "@####++';:::.   \`\`\`..\`.....,,,,,:,,+@@#########+"
+         echo "@@@#++''';::,   .;,.\`\`\`\`.\`..,,,,::;+@@+#########"
+         echo "@@#+++'''''::,,:;;;.\`\` \`.::#':::;;+#+.+########+"
+         echo "@##++'+'''+';;;;';;,\`.:+':+::;:;''+#\`\`+########'"
+         echo "@##+++'''++++++''+':'#+;:':..:;;'+#,, @######++'"
+         echo "##++++'''++++####++#+''+;,.\`,;;'+#',,.######++';"
+         echo "##++++++++#####@#++'';';,..,;';'+':\`.'@####++'''"
+         echo "##++++++++#@@#@#@#+''';:,,;';;;'';;,,;####++''''"
+         echo "##++++++++#@@#@@#@##+'';;';::;'';:,\`\`'###+''''''"
+         echo "##+++++++#@@@@@@@#@#@#+'';::;';:::,.\`,@#+''''+++"
+         echo "##++++++#@@@@@@@@@@@@@#+'';;;;::;:..\`\`@++'''++++"
+         echo "##++++++#@@@@@@@@@@@###+'';;::;;:,.\`\` #''''''+++"
+         echo "##++++#+@@@@@@@@@@@@###+'';;;;;:,,.\`\` '''''''+++"
+         echo "##++++++@@@@@@@########+'';;;:::,.\` \` ;''''''+++"
+         sleep 1
+         if [ $reboottype ]
+         then
+            $reboottype
+         fi
+      ;;
+      99)
+         if [ -e /system/bin/backubuntu ]
+         then
+            if [ -e /system/bin/bootubuntu ]
+            then
+               $busyfusion rm -rf /system/bin/bootubuntu
+            fi
+            if [ -e /system/bin/loopubuntu ]
+            then
+               $busyfusion rm -rf /system/bin/bootubuntu
+            fi
+            $busyfusion rm -rf /system/bin/backubuntu
+            echo
+            echo "Scripts running direct from application"
+         else
+            $busyfusion clear
+            echo
+            echo "Install has been started. Be patient"
+            echo
+            if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu ]
+            then
+               cp /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu /system/bin/
+               chmod 777 /system/bin/bootubuntu
+            fi
+            if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu ]
+            then
+               cp /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu /system/bin/
+               chmod 777 /system/bin/loopubuntu
+            fi
+            echo "Ubuntu boot script installed"
+            cp /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu /system/bin/
+            chmod 777 /system/bin/backubuntu
+            echo
+            echo "Ubuntu options script installed"
+            echo
+            echo "Install of Ubuntu scripts completed"
+         fi
+      ;;
+      b)
+#!/system/bin/sh<<EOF
+         sh /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu
+exit
+         EOF
+      ;;
+      p)
+#!/system/bin/sh<<EOF
+         sh /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu
+exit
+         EOF
+      ;;
+      *)
+         echo
+         echo "Remounting system partition as read-only"
+         $busyfusion mount -o ro,remount /system
+         $busyfusion mount -o remount,ro -t yaffs2 `$busyfusion grep /system /proc/mounts | $busyfusion cut -d' ' -f1` /system
+         echo
+         echo "Exiting Ext2buntu Services. Thank You!"
+         echo
+         sleep 1
+         $busyfusion clear
+         echo
+         exit
+      ;;
+   esac
+   
+   echo
+   echo -n "Please hit Enter to continue"
+   read key
+done
