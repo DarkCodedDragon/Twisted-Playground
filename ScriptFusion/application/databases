@@ -1,0 +1,12 @@
+fixedpermissions#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Fix permissions for device and installed data. Commonly fixes force close issues.
+multimountsd#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Allows the sdcard to be mounted to both the device and a computer that is connected through USB at the same time.
+enableadbwifi#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Activates adb through a network allowing a common access point connection to substitute plugging into a USB cable.
+enable3gboost#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Modify the system to support faster connections through EDGE and GPRS. Does not have any effect on 4G and HSPDA.
+wificalibrate#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Fixes WiFi when a new kernel or ROM is loaded without wiping data. Will wipe saved access points and their passwords
+cachesdcard#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Move and link Google app cache files to sdcard. Includes Gmail, Maps, Market, and Search. May fail for apps that are not present or installed.
+installbusybox#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Install busybox and symlink applets to the /system/xbin folder. Will not update su or wget binaries to prevent compatibility issues.
+adblocker#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Update hosts file to remove ads. Checks and, if necessary, updates the hosts file to the newest definitions that are currently available.
+activateswap#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Removes existing swap file, if present, and creates a new swap file. This swap file is activated and then tested to ensure functionality.
+allapkzipalign#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#ZipAlign all application and framework apk files currently installed on device. This includes system apps, system frameworks, and user applications.
+batterystatistics#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Display detailed battery information. Includes temperature, current charge status, and many other statistics related to the current status of the battery
+zrebootdevice#http://twisted.dyndns.tv/ScriptFusion/application/shellscript/#Reboot the device. This is a standard reboot. No options are presented.

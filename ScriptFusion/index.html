@@ -1,0 +1,305 @@
+<html xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta name=Title content="">
+<meta http-equiv=Content-Type content="text/html; charset=macintosh">
+<style>
+<!--
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph {
+	font-size:12.0pt;
+	font-family:Cambria;
+}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst {
+	font-size:12.0pt;
+	font-family:Cambria;
+}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle {
+	font-size:12.0pt;
+	font-family:Cambria;
+}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast {
+	font-size:12.0pt;
+	font-family:Cambria;
+}
+.MsoChpDefault {
+	font-family:Cambria;
+}
+-->
+</style>
+</head>
+
+<body lang=EN-US>
+<div>
+  <center>
+    <h2><a href="application/index.html">Application Help: Click Here</a></h2>
+  </center>
+  <br>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>Just a quick breakdown for anyone asking "What about 98kickasskernel? Or "what about juwe RAM optimization?" "Don't they do the same thing?" In theory, sure... For RAM and sysctl values. Ever wonder why there are two versions of the 98kernel script to prevent bootloops? That is one key difference. This system doesn't just throw values at your device, or follow an "if you bootloop" methodology. Sure, things may cause loops because there is no reliable check (See odex/dalvikvm), but nothing is hard-coded.
+<br>
+"What about setCPU?" or "what about Advanced System Tools?" are answered much the same way. You can run five applications and use up a good chunk of the optimization they create running them together... or you can use one and keep the extra for yourself.
+<br>
+Another big difference is that those scripts cannot change screen density, tweak the CPU, change the scheduler, profile frequencies, and fix broken WiFi all in one run.
+Complete means complete, simple as that. Customization means user determined customization, not what one developer recommends. Recommendations will help through the process, but they remain exactly that. There are no rules. Have some fun...</span></p>
+<p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'>I do not place any restriction on use of the script, components, or functions. All I ask is that the script is not used in the development of similar applications. Whether or not I am credited is at the discretion of the developer and their personal moral obligations. While this project does not include any GPL code, the theory held by XDA-developers is still relevant:
+</span></p>
+<p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'> "The GPL imparts great freedom for GPL end users. It ensures innovation is never stifled and no project is dependent upon any single developer."</span></p>
+{{{********************&#8232;<b>Certain
+    kernels and ROMs <span class=GramE>can not</span> handle extremely low voltage.
+    As a result, the device can freeze and in the process possibly corrupt the <span
+class=SpellE>sdcard</span>. BACKUP YOUR SDCARD BEFORE EXPERIMENTING WITH NEW
+    SETTINGS<span class=GramE>.&#8232;</span>&#8232;Before reporting an issue,
+    please make sure you have:&#8232;1. Updated to the newest copy of the script by
+    executing the script and allowing update to complete&#8232;2. Updated to the
+    newest release of the application through the link provided or through Android
+    market / Twisted Sandbox&#8232;3. Searched the thread for issues similar to the
+    one you are having and attempted any suggested repair procedures&#8232;4.
+    Uninstalled the application, wiped the <span class=SpellE>dalvik</span>-cache
+    and repeated updated install after the device has completed a reboot</b>&#8232;********************}}} </span></p>
+  <p><span class=SpellE><span style='font-size:14.0pt;font-family:
+Verdana;color:#0E0E0E'>ScriptFusion</span></span><span
+style='font-size:14.0pt;font-family:Verdana;color:#0E0E0E'> AutoBot</span></p>
+  <p><span style='font-size:14.0pt;font-family:Verdana;
+color:#0E0E0E'>Available on <a
+href="https://market.android.com/details?id=com.twisted.zero"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>Twisted Sandbox</span></a> and <a
+href="https://market.android.com/details?id=com.fusion.tbolt"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>Android Market</span></a> </span></p>
+  <p><span style='font-size:16.0pt;font-family:Verdana;
+color:#0E0E0E'>DOWNLOADS:</span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>This application will install the script, and if purchased from
+    market, or unlocked with the Twisted <span class=SpellE>Sanbox</span> Shovel,
+    it will also provide an online database of tweaks and scripts that can be run,
+    or linked together and run, from directly inside the application. &#8232;</span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'>So what exactly makes this so different than any other tweak
+    package / <span class=SpellE>speedtweak?</span></span></p>
+  <p><span class=GramE><span style='font-family:Verdana;
+color:#0E0E0E'>Modified and rebuilt entirely on
+    device.</span></span><span style='font-family:Verdana;color:#0E0E0E'> This means that updates happen just as soon as I run
+    them. In the past, this slowed development due to unpacking and repacking
+    images. With the current revision, that issue becomes one of its greatest
+    strengths<span class=GramE>.&#8232;</span>Modified 6.2.1 tweak package built
+    in. While launch scripts do make this method just as easy to launch for the end
+    user, disabling features required manually editing system files, and there were
+    quite a few to keep track of. I aim to minimize packed files, maximize ease of
+    use, and eliminate manual edits.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Basic profile settings that will
+    attempt to integrate available frequencies into a preset voltage profile list
+    with min and max</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Custom profile allowing the user
+    to pick a minimum and maximum frequency value. The user will then be walked
+    through setting voltage values for each available frequency (All frequencies
+    are customized in case min or max are overridden).</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Backup option allows the user to
+    back up the frequency and voltage level file to either /data/data/ or /<span
+class=SpellE>sdcard</span>/<span class=SpellE>ScriptFusion</span></span></p>
+  <p class=MsoChpDefault><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Restore will take the backup file
+    and place it back into the <span class=SpellE>init.d</span> and then launch it </span></p>
+  <p><span
+style='font-size:10.0pt;font-family:Symbol;'>-<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Governor options that will read
+    the available governors from the kernel and allow changing the current option.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Clear commands will clear the
+    listed item. Available options include battery stats, <span class=SpellE>dalvik</span>-cache,
+    and a combined clear.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+class=SpellE><span style='font-size:10.0pt;font-family:Verdana'>Wifi</span></span><span
+style='font-size:10.0pt;font-family:Verdana'> Calibrate will clear the required <span class=SpellE>wifi</span> settings to restore operation when switching to
+    a new ROM or kernel. Please note that this USUALLY fixes <span class=SpellE>wifi</span> (at the cost of having to reconnect to any previous saved networks) and
+    prevents needing to revert the kernel or wipe data.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Fix permissions will run the same
+    permission script that is run by virtually any fix permission function. It is a
+    fairly generic script that has been working efficiently and did not need to be
+    further modified</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Wake on Volume keys will allow the
+    toggling on and off of the wake on volume feature for volume up and volume down
+    separately, based on their current status. If a key is set to wake, the option
+    will be to disable. If the key is set not to wake, the option will be to
+    enable.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Swap options allow the user to
+    create and remove swap, with both immediate and ongoing results. There is no
+    need to reboot when using these options, and all choices are persistent through
+    system reboot.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+class=SpellE><span style='font-size:10.0pt;font-family:Verdana'>Sheduler</span></span><span
+style='font-size:10.0pt;font-family:Verdana'> options to alter the scheduler
+    based on a listing of available choices. &nbsp;Extended options are offered for tweaking
+    sleepers values, if the system supports changing those values.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Binary installers to upgrade /
+    install <span class=SpellE>busybox</span>, modified <span class=SpellE>wget</span>,
+    bash, etc.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+class=SpellE><span style='font-size:10.0pt;font-family:Verdana'>Odex</span></span><span
+style='font-size:10.0pt;font-family:Verdana'> optimization (BETA) adds <span
+class=SpellE>odex</span> files to help increase cache speed. Backup first. May
+    not work with <span class=SpellE>Gingeritis</span> due to <span class=SpellE>dalvikvm</span>.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Screen density editor will allow
+    custom values to be entered for the screen &quot;resolution&quot; to change
+    overall size appearance.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Updater-Script Editor will remove
+    the data wipe functions from the META-INF folder of a ROM that has been
+    extracted.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+class=SpellE><span style='font-size:10.0pt;font-family:Verdana'>AdBlock</span></span><span
+style='font-size:10.0pt;font-family:Verdana'> options to enable, disable, and
+    update the listing for the ads shown when using the browser and other
+    applications.</span></p>
+  <p class=MsoListParagraphCxSpMiddle><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Proximity Sensor options to enable
+    and disable the proximity sensor that turns the screen on and off while phone
+    is in use.</span></p>
+  <p class=MsoListParagraphCxSpLast><span
+style='font-size:10.0pt;font-family:Symbol;'> - <span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-size:10.0pt;font-family:Verdana'>Tweak menu to toggle what tweaks
+    are applied by category. They are grouped by how they are most often applied.
+    For example, <span class=SpellE>filesystem</span> includes both remounts for
+    partitions as well as <span class=SpellE>sdcard</span> read enhancement. By
+    default, all tweaks are disabled to prevent issues caused by compatibility.</span></p>
+  <p><span style='font-family:Verdana'>This list is still being <span
+class=GramE>updated,</span> so many features are not included. Please check the
+    thread, as most of the features not yet listed are explained throughout it.</span></p>
+  <p style='text-autospace:none'><span style='font-size:14.0pt;font-family:Verdana;
+color:#0E0E0E'>AUTOUPDATE - Once the full package
+    is installed, it will update itself (if needed) whenever it is launched. The
+    only time the script alone needs to be reinstalled is when a new ROM is
+    installed.</span></p>
+  <p style='text-autospace:none'><span style='font-size:16.0pt;font-family:Verdana;
+color:#0E0E0E'>Script ONLY</span></p>
+  <p style='text-autospace:none'><span style='font-size:14.0pt;font-family:Verdana;
+color:#0E0E0E'>Live script install</span></p>
+  <p style='text-autospace:none'><span style='font-size:14.0pt;font-family:Verdana;
+color:#0E0E0E'><a href="http://db.tt/u2gCqNO"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://db.tt/u2gCqNO</span></a></span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Open terminal</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Code:</span></p>
+  <p style='text-autospace:none'><span class=SpellE><span class=GramE><span
+style='font-family:Courier;'>su</span></span></span></p>
+  <p style='text-autospace:none'><span class=GramE><span style='font-family:Courier;
+'>bash</span></span><span style='font-family:Courier;
+'> /<span class=SpellE>sdcard</span>/location of
+    script/speedtweak.sh fusion</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>This is the live equivalent of flashing <span
+class=SpellE>ScriptFusion</span> in recovery and would be considered a full
+    install.</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Once fully installed</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Open terminal</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Code:</span></p>
+  <p style='text-autospace:none'><span class=SpellE><span class=GramE><span
+style='font-family:Verdana;'>su</span></span></span></p>
+  <p style='text-autospace:none'><span class=GramE><span style='font-family:Verdana;
+'>speedtweak.sh</span></span></p>
+  <p style='text-autospace:none'><span style='font-size:14.0pt;font-family:Verdana;
+color:#0E0E0E'>Live script removal</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Open terminal</span></p>
+  <p style='text-autospace:none'><span style='font-family:Verdana;color:#0E0E0E'>Code:</span></p>
+  <p style='text-autospace:none'><span class=SpellE><span class=GramE><span
+style='font-family:Verdana;'>su</span></span></span></p>
+  <p style='text-autospace:none'><span class=GramE><span style='font-family:Verdana;
+'>speedtweak.sh</span></span><span
+style='font-family:Verdana;'> guilty</span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>This is the live equivalent of flashing Guilty Verdict in
+    recovery and would be considered a full removal. </span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>If you are a kernel developer and would like to use this mod in
+    your image, place <a href="http://db.tt/IQWHjFI"><span style='color:#A24200;
+text-decoration:none;text-underline:none'>http://db.tt/IQWHjFI</span></a> as
+    your <span class=SpellE>speedtweak</span> for the kernel <span class=SpellE>ramdisk</span>.
+    It will download <span class=SpellE>busybox</span> and configure itself on
+    first run. No real credit necessary, just please include a link to this post
+    for users to obtain new updates and information </span></p>
+  <p><span style='font-size:13.0pt;font-family:Verdana;
+color:#0E0E0E'>Just wanted to take a second to
+    thank a few people:</span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'>Th3ory has been on every update,
+    modification, tweak, hack, edit, change, <span class=SpellE>etc</span> making
+    sure I know what works and what doesn't and taking the time to help others in
+    the process. I can verify that this high standard shows in his work on the GINGERTH3ORY <span class=SpellE>ROM:</span></span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'><a
+href="http://forum.xda-developers.com/showthread.php?t=1110820"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://forum.xda-developers.com/show....php?t=1110820</span></a></span></p>
+  <p><span class=SpellE><span class=GramE><span style='font-size:
+10.0pt;font-family:Verdana;color:#0E0E0E'>nerozehl</span></span></span><span
+style='font-size:10.0pt;font-family:Verdana;color:#0E0E0E'> has been a huge help with code, crash testing, and integrating
+    all my <span class=SpellE>maddness</span> into <span class=SpellE>dreamKernel</span>.
+    Check out his amazing work over at the <span class=SpellE>thread:</span></span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'><a
+href="http://forum.xda-developers.com/showthread.php?t=1099996"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://forum.xda-developers.com/show....php?t=1099996</span></a></span></p>
+  <p><span class=SpellE><span class=GramE><span style='font-size:
+10.0pt;font-family:Verdana;color:#0E0E0E'>zeppelinrox</span></span></span><span
+style='font-size:10.0pt;font-family:Verdana;color:#0E0E0E'> renewed my motivation by reminding me that while each aspect of
+    the system can make a huge impact, you should never put all your eggs in one
+    basket. Everything he has done can be found:</span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'><a
+href="http://forum.xda-developers.com/showthread.php?t=991276"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://forum.xda-developers.com/showthread.php?t=991276</span></a></span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'>All credit for the original,
+    unmodified <span class=SpellE>speedtweak</span> and tweak installation concept
+    goes to <span class=SpellE>Imoseyon</span>. I highly recommend supporting him
+    and his work. The original thread can be <span class=SpellE>found:</span></span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'><a
+href="http://forum.xda-developers.com/showthread.php?t=1086518"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://forum.xda-developers.com/show....php?t=1086518</span></a></span></p>
+  <p><span style='font-size:10.0pt;font-family:Verdana;
+color:#0E0E0E'>I would also like to thank the
+    makers of ZipSigner2 and Root Explorer</span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>Want to build and modify Android on the fly like <span
+class=SpellE>TwistedUmbrella?</span></span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'><a
+href="http://forum.xda-developers.com/showthread.php?t=1104983"><span
+style='color:#A24200;text-decoration:none;text-underline:none'>http://forum.xda-developers.com/show....php?t=1104983</span></a></span></p>
+  <p><span style='font-family:Verdana;color:#0E0E0E'>(Shameless television-style advertising makes me warm inside)&#8232;</span></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+alignfusion="/data/data/com.fusion.tbolt/files/zipalign"
+
+cd /
+echo
+
+for apk in /data/app/*.apk ; do
+   $alignfusion -c 4 $apk;
+   ZIPCHECK=$?;
+   if $busyfusion [ $ZIPCHECK -eq 1 ]; then
+      $busyfusion echo ZipAligning $($busyfusion basename $apk)
+      $alignfusion -f 4 $apk /cache/$($busyfusion basename $apk);
+      if $busyfusion [ -e /cache/$($busyfusion basename $apk) ]; then
+         $busyfusion cp -f -p /cache/$($busyfusion basename $apk) $apk
+         $busyfusion rm /cache/$($busyfusion basename $apk);
+      else
+         $busyfusion echo ZipAligning $($busyfusion basename $apk) Failed
+      fi;
+   else
+      $busyfusion echo ZipAlign already completed on $apk
+   fi;
+done;
+for apk in /data/app-private/*.apk ; do
+   $alignfusion -c 4 $apk;
+   ZIPCHECK=$?;
+   if $busyfusion [ $ZIPCHECK -eq 1 ]; then
+      $busyfusion echo ZipAligning $($busyfusion basename $apk)
+      $alignfusion -f 4 $apk /cache/$($busyfusion basename $apk);
+      if $busyfusion [ -e /cache/$($busyfusion basename $apk) ]; then
+         $busyfusion cp -f -p /cache/$($busyfusion basename $apk) $apk
+         $busyfusion rm /cache/$($busyfusion basename $apk);
+      else
+         $busyfusion echo ZipAligning $($busyfusion basename $apk) Failed
+      fi;
+   else
+      $busyfusion echo ZipAlign already completed on $apk
+   fi;
+done;
+for apk in /system/app/*.apk ; do
+   $alignfusion -c 4 $apk;
+   ZIPCHECK=$?;
+   if $busyfusion [ $ZIPCHECK -eq 1 ]; then
+      $busyfusion echo ZipAligning $($busyfusion basename $apk)
+      $alignfusion -f 4 $apk /cache/$($busyfusion basename $apk);
+      if $busyfusion [ -e /cache/$($busyfusion basename $apk) ]; then
+         $busyfusion cp -f /cache/$($busyfusion basename $apk) $apk
+         $busyfusion rm /cache/$($busyfusion basename $apk);
+      else
+         $busyfusion echo ZipAligning $($busyfusion basename $apk) Failed
+      fi;
+   else
+      $busyfusion echo ZipAlign already completed on $apk
+   fi;
+done;
+$busyfusion sync
+for apk in /system/framework/*.apk ; do
+   $alignfusion -c 4 $apk;
+   ZIPCHECK=$?;
+   if $busyfusion [ $ZIPCHECK -eq 1 ]; then
+      $busyfusion echo ZipAligning $($busyfusion basename $apk)
+      $alignfusion -f 4 $apk /cache/$($busyfusion basename $apk);
+      if $busyfusion [ -e /cache/$($busyfusion basename $apk) ]; then
+         $busyfusion cp -f /cache/$($busyfusion basename $apk) $apk
+         $busyfusion rm /cache/$($busyfusion basename $apk);
+      else
+         $busyfusion echo ZipAligning $($busyfusion basename $apk) Failed
+      fi;
+   else
+      $busyfusion echo ZipAlign already completed on $apk
+   fi;
+done;
+$busyfusion sync
+echo

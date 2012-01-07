@@ -1,0 +1,11 @@
+wgetfusion="/data/data/com.fusion.tbolt/files/wget"
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+minfreq=`$busyfusion cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq`
+maxfreq=`$busyfusion cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq`
+ifile="/system/etc/init.d/01vdd_levels"
+sfile="/system/etc/init.d/02sched_choice"
+ofile="/system/etc/init.d/00twist_override"
+tfile="/system/etc/init.d/99imotwist_tweaks"
+
+cd /
+echo

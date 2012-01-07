@@ -1,0 +1,11 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+
+$busyfusion rm -rf /data/data/com.android.settings/shared_prefs/WirelessSettings.xml
+$busyfusion rm -rf /data/misc/wifi/
+echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
+echo "Calibration complete. Please reboot"
+echo

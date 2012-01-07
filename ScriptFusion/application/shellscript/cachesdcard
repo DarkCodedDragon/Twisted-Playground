@@ -1,0 +1,76 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+
+if [ ! -d /sdcard/cache ]
+then
+   mkdir /sdcard/cache
+   chmod 777 /sdcard/cache
+fi
+if [ ! -d /sdcard/cache/webviewCache ]
+then
+   mkdir /sdcard/cache/webviewCache
+   chmod 777 /sdcard/cache/webviewCache
+fi
+if [ ! -d /sdcard/cache/files/maps ]
+then
+   mkdir /sdcard/cache/files
+   mkdir /sdcard/cache/files/maps
+   chmod -r 777 /sdcard/cache/files
+fi
+if [ ! -d /sdcard/cache/streetCache ]
+then
+   mkdir /sdcard/cache/streetCache
+   chmod 777 /sdcard/cache/streetCache
+fi
+if [ ! -d /sdcard/cache/marketCache ]
+then
+   mkdir /sdcard/cache/marketCache
+   chmod 777 /sdcard/cache/marketCache
+fi
+
+# Browser Cache
+
+cd /
+cd /data/data/com.android.browser/cache
+$busyfusion rm -rf webviewCache
+$busyfusion ln -s /sdcard/cache/webviewCache webviewCache
+
+# Gmail
+
+cd /
+cd /data/data/com.google.android.gm/cache
+$busyfusion rm -rf webviewCache
+$busyfusion ln -s /sdcard/cache/webviewCache webviewCache
+
+# Voice Search
+
+cd /
+cd /data/data/com.google.android.voicesearch/cache
+$busyfusion rm -rf webviewCache
+$busyfusion ln -s /sdcard/cache/webviewCache webviewCache
+
+# Google Maps
+
+cd /
+cd /data/data/com.google.android.apps.maps
+$busyfusion rm -rf files
+$busyfusion ln -s /sdcard/cache/files/maps files
+
+# Google StreetView
+
+cd /
+cd /data/data/com.google.android.street
+$busyfusion rm -rf cache
+$busyfusion ln -s /sdcard/cache/streetCache cache
+
+# Market Cache
+
+cd /
+cd /data/data/com.android.vending
+$busyfusion rm -rf cache
+$busyfusion ln -s /sdcard/cache/marketCache cache
+
+echo "Google cache files moved to sdcard"
+echo

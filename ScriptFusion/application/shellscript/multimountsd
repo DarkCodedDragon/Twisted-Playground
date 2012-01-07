@@ -1,0 +1,10 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+
+availablemounts=`$busyfusion ls -x dev/block//vold | $busybfusion awk "{ print $3 }"`
+echo $availablemounts > /sys/devices/platform/usb_mass_storage/lun0/file
+echo 'Do NOT select mount when connecting USB'
+echo 'Storage becomes available automatically'
+echo

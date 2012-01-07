@@ -1,0 +1,7 @@
+
+cd /
+echo
+
+sleep 1
+/data/data/com.fusion.tbolt/files/reboot
+echo

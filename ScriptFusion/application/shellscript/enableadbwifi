@@ -1,0 +1,12 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+
+setprop service.adb.tcp.port 5555
+stop adbd
+start adbd
+echo
+device_ip=`$busyfusion ifconfig eth0 | $busyfusion grep "inet addr" | $busyfusion awk -F: '{print $2}' | $busyfusion awk '{print $1}'`
+echo 'Enter "adb connect '$device_ip':5555"'
+echo

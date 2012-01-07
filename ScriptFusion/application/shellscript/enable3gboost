@@ -1,0 +1,48 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+$busyfusion sed -i /Enhanced\ 3G\ Radio\ Modification/d /system/build.prop
+$busyfusion sed -i /ro.ril.hsxpa/d /system/build.prop
+$busyfusion sed -i /ro.ril.gprsclass/d /system/build.prop
+$busyfusion sed -i /ro.ril.hep/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.dtm/d /system/build.prop
+$busyfusion sed -i /ro.ril.hsdpa.category/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.a53/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.a52/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.3g.prefix/d /system/build.prop
+$busyfusion sed -i /ro.ril.htcmaskw1.bitmask/d /system/build.prop
+$busyfusion sed -i /ro.ril.htcmaskw1/d /system/build.prop
+$busyfusion sed -i /ro.ril.hsupa.category/d /system/build.prop
+$busyfusion sed -i /ro.ril.def.agps.mode/d /system/build.prop
+$busyfusion sed -i /ro.ril.def.agps.feature/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.sdr/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.gea3/d /system/build.prop
+$busyfusion sed -i /ro.ril.enable.fd.plmn.prefix/d /system/build.prop
+$busyfusion sed -i /ro.ril.disable.power.collapse/d /system/build.prop
+$busyfusion sed -i /Fix\ Connection/d /system/build.prop
+
+$busyfusion cp /system/build.prop /system/build.prop.3gb
+
+$busyfusion sed -i 1'i\# Enhanced 3G Radio Modification' /system/build.prop
+$busyfusion sed -i 2'i\ro.ril.hsxpa=2' /system/build.prop
+$busyfusion sed -i 3'i\ro.ril.gprsclass=32' /system/build.prop
+$busyfusion sed -i 4'i\ro.ril.hep=1' /system/build.prop
+$busyfusion sed -i 5'i\ro.ril.hsdpa.category=28' /system/build.prop
+$busyfusion sed -i 6'i\ro.ril.enable.3g.prefix=1' /system/build.prop
+$busyfusion sed -i 7'i\ro.ril.htcmaskw1.bitmask=4294967295' /system/build.prop
+$busyfusion sed -i 8'i\ro.ril.htcmaskw1=268449905' /system/build.prop
+$busyfusion sed -i 9'i\ro.ril.hsupa.category=9' /system/build.prop
+$busyfusion sed -i 10'i\ro.ril.def.agps.mode=2' /system/build.prop
+$busyfusion sed -i 11'i\ro.ril.def.agps.feature=1' /system/build.prop
+$busyfusion sed -i 12'i\ro.ril.enable.sdr=1' /system/build.prop
+$busyfusion sed -i 13'i\ro.ril.enable.gea3=1' /system/build.prop
+$busyfusion sed -i 14'i\ro.ril.enable.fd.plmn.prefix=23402,23410,23411' /system/build.prop
+$busyfusion sed -i 15'i\ro.ril.disable.power.collapse=0' /system/build.prop
+$busyfusion sed -i 16'i\ro.ril.enable.a52=0' /system/build.prop
+$busyfusion sed -i 17'i\ro.ril.enable.a53=0' /system/build.prop
+$busyfusion sed -i 18'i\ro.ril.enable.dtm=0' /system/build.prop
+
+echo
+echo '3G Boost added. Reboot for changes'
+echo

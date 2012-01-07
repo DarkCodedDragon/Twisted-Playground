@@ -1,0 +1,44 @@
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+tfile="/system/etc/init.d/99imotwist_tweaks"
+
+cd /
+echo
+
+if [ -f /data/swapfile ]
+then
+   $busyfusion swapoff /data/swapfile
+   $busyfusion rm -rf /data/swapfile
+fi
+echo
+echo "Creating swap, Please wait..."
+echo
+$busyfusion dd if=/dev/zero of=/data/swapfile bs=1k count=200000 > /dev/null
+chmod 777 /data/swapfile
+$busyfusion mkswap /data/swapfile > /dev/null
+$busyfusion swapon /data/swapfile
+echo "100,200,20000,20000,20000,25000" > /sys/module/lowmemorykiller/parameters/minfree
+$busyfusion sysctl -w vm.swappiness=40
+echo
+echo "Swap creation complete. Testing swap"
+echo
+if [ ! -e /system/etc/init.d/99imoseyon ]
+then
+   echo "#!/system/bin/sh" > $tfile
+   
+   echo "# Customized Tweaks" >> $tfile
+   echo "" >> $tfile
+   echo "# Scheduler Options" >> $tfile
+   echo "sh "$sfile >> $tfile
+   echo "" >> $tfile
+   
+   echo "# Swapfile If Then Enable" >> $tfile
+   echo "if [ -e /data/swapfile ]" >> $tfile
+   echo "then" >> $tfile
+   echo "$busyfusion swapon /data/swapfile" >> $tfile
+   echo 'echo "100,200,20000,20000,20000,25000" > /sys/module/lowmemorykiller/parameters/minfree' >> $tfile
+   echo "$busyfusion sysctl -w vm.swappiness=40" >> $tfile
+   echo "fi" >> $tfile
+   echo "" >> $tfile
+fi
+free
+echo

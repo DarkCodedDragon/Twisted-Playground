@@ -1,0 +1,51 @@
+wgetfusion="/data/data/com.fusion.tbolt/files/wget"
+busyfusion="/data/data/com.fusion.tbolt/files/busybox"
+
+cd /
+echo
+
+OLDHOSTSMD5=`md5sum /system/etc/hosts | $busyfusion cut -b -32`
+
+echo "Fetching host file via hostname"
+cd /data/local/tmp
+$wgetfusion -O hosts http://dl.dropbox.com/u/24904191/hosts
+
+if [ ! -s hosts ]; then
+   echo "The busybox version of wget on your system does not work correctly with
+   hostnames. Trying workaround with latest known IP to the hostname..."
+   $wgetfusion -O hosts http://50.17.213.175/u/24904191/hosts
+fi
+
+if [ -s hosts ]; then
+   NEWHOSTSMD5=`md5sum hosts | $busyfusion cut -b -32`
+   
+   if [ "$NEWHOSTSMD5" == "$OLDHOSTSMD5" ]; then
+      $busyfusion rm hosts
+      echo "host file is already up to date, exiting..."
+      $busyfusion sync
+   else
+      cd /
+      $busyfusion mount -o remount,rw -t ext3 /dev/block/mtdblock5 /system
+      
+      echo "backing up old host file and updating"
+      $busyfusion mv /system/etc/hosts /system/etc/hosts.bak
+      $busyfusion cp /data/local/tmp/hosts /system/etc/hosts
+      OLDHOSTSMD5=`md5sum /system/etc/hosts | $busyfusion cut -b -32`
+      
+      if [ "$NEWHOSTSMD5" != "$OLDHOSTSMD5" ]; then
+         echo "Host file could not be updated (could not be moved). Aborting..."
+         $busyfusion mount -o remount,ro -t ext3 /dev/block/mtdblock5 /system
+         $busyfusion sync
+      else
+         
+         chown root /system/etc/hosts
+         chmod 644 /system/etc/hosts
+         
+         echo "Cleaning up files..."
+         $busyfusion rm hosts
+      fi
+   fi
+   echo "Ad blocking has been activated / updated"
+fi
+cd /
+echo
