@@ -33,6 +33,7 @@ ifile="/system/etc/init.d/01vdd_levels"
 sfile="/system/etc/init.d/02sched_choice"
 ofile="/system/etc/init.d/00twist_override"
 tfile="/system/etc/init.d/99imotwist_tweaks"
+vfile="/system/etc/init.d/03vibrate_config"
 
 wetinitialize() {
    
@@ -915,6 +916,12 @@ defaulttweak() {
    echo "busybox sysctl -w vm.swappiness=40" >> $tfile
    echo "fi" >> $tfile
    echo "" >> $tfile
+   echo "# Vibration If Then Enable" >> $tfile
+   echo "if [ -e $vfile ]" >> $tfile
+   echo "then" >> $tfile
+   echo "sh $vfile" >> $tfile
+   echo "fi" >> $tfile
+   echo "" >> $tfile
    echo "memory() {" >> $tfile
    echo "# Aggressive Memory Management" >> $tfile
    echo 'if [ -e /sys/module/lowmemorykiller/parameters/minfree ]; then' >> $tfile
@@ -1375,8 +1382,8 @@ tweakoptions() {
       else
          echo '12) Disabled Logger On'
       fi
-      echo '13) Turn On Performance (1 to 3)'
-      echo '14) Turn On Optimization (4 to 8)'
+      echo '13) Turn On Basic Optimize (1 to 6)'
+      echo '14) Turn On Sense Optimize (7 to 8)'
       echo
       if [ $multimounttweak ]
       then
@@ -1545,8 +1552,6 @@ tweakoptions() {
             then
                busybox sed -i 's/#schedule/schedule #/g' $tfile
             fi
-         ;;
-         14)
             if [ -e /system/bin/zipalign ]; then
                # zipsys
                if [ $zipsystweak ]
@@ -1564,6 +1569,8 @@ tweakoptions() {
             then
                busybox sed -i 's/#filesys/filesys #/g' $tfile
             fi
+         ;;
+         14)
             # dropcache
             if [ $dropcachetweak ]
             then
@@ -2037,7 +2044,8 @@ systemoptions() {
       else
          echo "Install Image Support (13)"
       fi
-echo
+      echo "14) Vibration Intensity"
+      echo
       echo 'x) Discard Backup Files'
       echo "0) Exit Menu"
       echo
@@ -2630,6 +2638,11 @@ volumeup=`busybox grep -m 1 -F "VOLUME_UP" $keyfile | busybox awk '{ print $4 }'
                *)
                ;;
             esac
+         ;;
+         14)
+         echo "Please enter an intensity (ex.1000, 2000, 3000)"
+         read intensity
+         echo 'echo "'$intensity'" > /sys/devices/virtual/timed_output/vibrator/voltage_level' > $vfile
          ;;
          x)
             if [ -e /system/build.prop.bak ]
