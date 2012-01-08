@@ -1,5 +1,6 @@
 #!/system/bin/sh
 
+server="http://twistedumbrella.github.com"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"
 checkubuntu=`$busyfusion mountpoint /data/ubuntu | $busyfusion  grep -F "not" -q`
@@ -107,9 +108,9 @@ case $setcpupref in
       echo
       echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
       echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu $server/Ext2buntu/application/backubuntu
       echo
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu $server/Ext2buntu/application/bootubuntu
       echo
       echo "Update has been completed. Starting install"
       echo
@@ -273,9 +274,9 @@ case $setcpupref in
       echo "Downloading updated install files"
       echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
       echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu $server/Ext2buntu/application/backubuntu
       echo
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu $server/Ext2buntu/application/loopubuntu
       echo
       echo "Update has been completed. Starting install"
       echo
@@ -413,9 +414,9 @@ case $setcpupref in
       echo "Downloading updated install files"
       echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
       echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu $server/Ext2buntu/application/backubuntu
       echo
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu $server/Ext2buntu/application/bootubuntu
       echo
       echo "Update has been completed. Starting install"
       $busyfusion clear
@@ -563,9 +564,9 @@ case $setcpupref in
    ;;
    0)
       # scripts
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
-      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu $server/Ext2buntu/application/backubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu $server/Ext2buntu/application/bootubuntu
+      $wgetfusion -O /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu $server/Ext2buntu/application/loopubuntu
       cp /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu /system/bin/
       chmod 777 /system/bin/bootubuntu
       cp /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu /system/bin/

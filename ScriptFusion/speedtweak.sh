@@ -21,6 +21,7 @@
 
 # Prerequisite Functions
 
+server="http://twistedumbrella.github.com"
 wgetcheck=`busybox stat -c %s /system/xbin/wget`
 busycheck=`busybox | busybox head -n 1 | busybox awk '{ print $2 }'`
 checkinitial=`busybox grep -q -m 1 -F 'run-parts /system/etc/init.d' /init.rc`
@@ -64,14 +65,14 @@ wetinitialize() {
       echo "Updating wget binary to custom version..."
       echo
       busybox rm -rf /system/xbin/wget
-      busybox wget -O /system/xbin/wget http://64.121.143.129/ScriptFusion/binaryfiles/wget
+      busybox wget -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
       chmod 755 /system/xbin/wget
    elif [ $wgetcheck -lt 24000 ]
    then
       echo "Updating wget binary to custom version..."
       echo
       busybox rm -rf /system/xbin/wget
-      busybox wget -O /system/xbin/wget http://64.121.143.129:/ScriptFusion/binaryfiles/wget
+      busybox wget -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
       chmod 755 /system/xbin/wget
    fi
    
@@ -208,7 +209,7 @@ repairconsole() {
    echo '         then' >> $repairfile
    echo '            busybox rm -rf /system/customize/speedtweak' >> $repairfile
    echo '         fi' >> $repairfile
-   echo '         wget -O /system/customize/speedtweak.sh http://twisted.dyndns.tv/ScriptFusion/speedtweak.sh' >> $repairfile
+   echo '         wget -O /system/customize/speedtweak.sh $server/ScriptFusion/speedtweak.sh' >> $repairfile
    echo '      chmod 777 speedtweak.sh' >> $repairfile
    echo '      integrity=`busybox stat -c %s /system/customize/speedtweak.sh`' >> $repairfile
    echo '      if [ $integrity -lt 1 ]' >> $repairfile
@@ -377,7 +378,7 @@ updateprocess() {
    echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
    busybox cp -a /system/customize/speedtweak.sh /system/customize/speedtweak.sh.bak
    cd /system/customize
-   wget -T 1 -N http://twisted.dyndns.tv/ScriptFusion/speedtweak.sh
+   wget -T 1 -N $server/ScriptFusion/speedtweak.sh
    chmod 777 speedtweak.sh
    cd /
    integrity=`busybox stat -c %s /system/customize/speedtweak.sh`
@@ -1870,7 +1871,7 @@ binaryinstalls() {
             echo
             cd /system/xbin
             cp busybox busybox.bak
-            wget -T 5 -N http://twisted.dyndns.tv/ScriptFusion/binaryfiles/busybox
+            wget -T 5 -N $server/ScriptFusion/binaryfiles/busybox
             chown 0:0 busybox
             chmod 4755 busybox
             cd /
@@ -1915,7 +1916,7 @@ binaryinstalls() {
          ;;
          2)
             echo
-            wget -O /system/xbin/bash http://twisted.dyndns.tv/Ext2buntu/bash
+            wget -O /system/xbin/bash $server/Ext2buntu/bash
             chmod 755 /system/xbin/bash
             integrity=`busybox stat -c %s /system/xbin/bash`
             if [ $integrity -lt 1 ]
@@ -1930,7 +1931,7 @@ binaryinstalls() {
          ;;
          3)
             echo
-            wget -O /system/bin/zipalign http://twisted.dyndns.tv/ScriptFusion/binaryfiles/zipalign
+            wget -O /system/bin/zipalign $server/ScriptFusion/binaryfiles/zipalign
             chmod 755 /system/bin/zipalign
             integrity=`busybox stat -c %s /system/bin/zipalign`
             if [ $integrity -lt 1 ]
@@ -1945,7 +1946,7 @@ binaryinstalls() {
          ;;
          4)
             echo
-            wget -O /system/xbin/dexopt-wrapper http://twisted.dyndns.tv/ScriptFusion/binaryfiles/dexopt-wrapper
+            wget -O /system/xbin/dexopt-wrapper $server/ScriptFusion/binaryfiles/dexopt-wrapper
             chmod 755 /system/xbin/dexopt-wrapper
             integrity=`busybox stat -c %s /system/xbin/dexopt-wrapper`
             if [ $integrity -lt 1 ]
@@ -1961,7 +1962,7 @@ binaryinstalls() {
          5)
             echo
             busybox rm -rf /system/xbin/wget
-            wget -O /system/xbin/wget http://twisted.dyndns.tv/ScriptFusion/binaryfiles/wget
+            wget -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
             chmod 755 /system/xbin/wget
             integrity=`busybox stat -c %s /system/xbin/wget`
             if [ $integrity -lt 1 ]
@@ -1975,7 +1976,7 @@ binaryinstalls() {
             fi
          ;;
          6)
-            wget -O /system/bin/flash_image http://twisted.dyndns.tv/ScriptFusion/binaryfiles/flash_image
+            wget -O /system/bin/flash_image $server/ScriptFusion/binaryfiles/flash_image
             chmod 755 /system/bin/flash_image
             integrity=`busybox stat -c %s /system/bin/flash_image`
             if [ $integrity -lt 1 ]
@@ -3935,7 +3936,7 @@ tweakoptions
             
          ;;
          h)
-            $viewitem http://twisted.dyndns.tv/ScriptFusion/
+            $viewitem $server/ScriptFusion/
          ;;
          x)
             busybox clear

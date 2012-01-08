@@ -1,5 +1,6 @@
 #!/system/bin/sh
 
+server="http://twistedumbrella.github.com"
 checkubuntu=`busybox mountpoint /data/ubuntu | busybox  grep -F "not" -q`
 busycheck=`busybox | busybox head -n 1 | busybox awk '{ print $2 }'`
 wgetcheck=`busybox stat -c %s /system/xbin/wget`
@@ -86,14 +87,14 @@ then
    echo "Updating wget binary to custom version..."
    echo
    busybox rm -rf /system/xbin/wget
-   busybox wget -O /system/xbin/wget http://64.121.143.129/ScriptFusion/binaryfiles/wget
+   busybox wget -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
    chmod 755 /system/xbin/wget
 elif [ $wgetcheck -lt 24000 ]
 then
    echo "Updating wget binary to custom version..."
    echo
    busybox rm -rf /system/xbin/wget
-   busybox wget -O /system/xbin/wget http://64.121.143.129:/ScriptFusion/binaryfiles/wget
+   busybox wget -O /system/xbin/wget $server:/ScriptFusion/binaryfiles/wget
    chmod 755 /system/xbin/wget
 fi
 if [ $wgetcheck -gt 24000 ]
@@ -138,9 +139,9 @@ then
          echo
          echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
          echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-         wget -O /sdcard/ext2ubuntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -O /sdcard/ext2ubuntu/backubuntu $server/Ext2buntu/backubuntu
          echo
-         wget -O /sdcard/ext2ubuntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+         wget -O /sdcard/ext2ubuntu/bootubuntu $server/Ext2buntu/bootubuntu
          echo
          echo "Update has been completed. Starting install"
          echo
@@ -304,9 +305,9 @@ then
          echo "Downloading updated install files"
          echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
          echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-         wget -O /sdcard/ext2ubuntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -O /sdcard/ext2ubuntu/backubuntu $server/Ext2buntu/backubuntu
          echo
-         wget -O /sdcard/ext2ubuntu/loopubuntu http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+         wget -O /sdcard/ext2ubuntu/loopubuntu $server/Ext2buntu/loopubuntu
          echo
          echo "Update has been completed. Starting install"
          echo
@@ -444,9 +445,9 @@ then
          echo "Downloading updated install files"
          echo "nameserver 8.8.8.8" > /system/etc/resolv.conf
          echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
-         wget -O /sdcard/ext2ubuntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -O /sdcard/ext2ubuntu/backubuntu $server/Ext2buntu/backubuntu
          echo
-         wget -O /sdcard/ext2ubuntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+         wget -O /sdcard/ext2ubuntu/bootubuntu $server/Ext2buntu/bootubuntu
          echo
          echo "Update has been completed. Starting install"
          busybox clear
@@ -594,16 +595,16 @@ then
       ;;
       0)
          # scripts
-         wget -O /sdcard/ext2ubuntu/backubuntu http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -O /sdcard/ext2ubuntu/backubuntu $server/Ext2buntu/backubuntu
          if [ -e /sdcard/ext2ubuntu/bootubuntu ]
          then
             echo
-            wget -O /sdcard/ext2ubuntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+            wget -O /sdcard/ext2ubuntu/bootubuntu $server/Ext2buntu/bootubuntu
          fi
          if [ -e /sdcard/ext2ubuntu/loopubuntu ]
          then
             echo
-            wget -O /sdcard/ext2ubuntu/bootubuntu http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+            wget -O /sdcard/ext2ubuntu/bootubuntu $server/Ext2buntu/loopubuntu
          fi
          scripts
       ;;

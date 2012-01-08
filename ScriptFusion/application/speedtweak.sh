@@ -22,6 +22,7 @@
 
 # Prerequisite Functions
 
+server="http://twistedumbrella.github.com"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"
 alignfusion="/data/data/com.fusion.tbolt/files/zipalign"
@@ -318,7 +319,7 @@ updateprocess() {
    echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf
    $busyfusion cp -a /data/data/com.fusion.tbolt/files/speedtweak.sh /data/data/com.fusion.tbolt/files/speedtweak.sh.bak
    cd /data/data/com.fusion.tbolt/files
-   $wgetfusion -T 1 -N http://twisted.dyndns.tv/ScriptFusion/application/speedtweak.sh
+   $wgetfusion -T 1 -N $server/ScriptFusion/application/speedtweak.sh
    chmod 777 speedtweak.sh
    cd /
    integrity=`$busyfusion stat -c %s /data/data/com.fusion.tbolt/files/speedtweak.sh`
@@ -1803,13 +1804,13 @@ binaryinstall() {
       case $binaryoption in
          1)
             cd /sdcard/ScriptFusion
-            $wgetfusion http://twisted.dyndns.tv/BusyboxBin/
+            $wgetfusion $server/BusyboxBin/
             cd /
             $viewitem file:///sdcard/ScriptFusion/index.html
             echo
             cd /system/xbin
             cp busybox busybox.bak
-            $wgetfusion -T 5 -N http://twisted.dyndns.tv/ScriptFusion/binaryfiles/busybox
+            $wgetfusion -T 5 -N $server/ScriptFusion/binaryfiles/busybox
             chown 0:0 busybox
             chmod 4755 busybox
             cd /
@@ -1853,7 +1854,7 @@ binaryinstall() {
          ;;
          2)
             echo
-            $wgetfusion -O /system/xbin/bash http://twisted.dyndns.tv/Ext2buntu/bash
+            $wgetfusion -O /system/xbin/bash $server/Ext2buntu/bash
             chmod 755 /system/xbin/bash
             integrity=`$busyfusion stat -c %s /system/xbin/bash`
             if [ $integrity -lt 1 ]
@@ -1868,7 +1869,7 @@ binaryinstall() {
          ;;
          3)
             echo
-            $wgetfusion -O /system/bin/zipalign http://twisted.dyndns.tv/ScriptFusion/binaryfiles/zipalign
+            $wgetfusion -O /system/bin/zipalign $server/ScriptFusion/binaryfiles/zipalign
             chmod 755 /system/bin/zipalign
             integrity=`$busyfusion stat -c %s /system/bin/zipalign`
             if [ $integrity -lt 1 ]
@@ -1883,7 +1884,7 @@ binaryinstall() {
          ;;
          4)
             echo
-            $wgetfusion -O /system/xbin/dexopt-wrapper http://twisted.dyndns.tv/ScriptFusion/binaryfiles/dexopt-wrapper
+            $wgetfusion -O /system/xbin/dexopt-wrapper $server/ScriptFusion/binaryfiles/dexopt-wrapper
             chmod 777 /system/xbin/dexopt-wrapper
             integrity=`$busyfusion stat -c %s /system/xbin/dexopt-wrapper`
             if [ $integrity -lt 1 ]
@@ -1899,7 +1900,7 @@ binaryinstall() {
          5)
             echo
             $busyfusion rm -rf /system/xbin/wget
-            $wgetfusion -O /system/xbin/wget http://twisted.dyndns.tv/ScriptFusion/binaryfiles/wget
+            $wgetfusion -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
             chmod 755 /system/xbin/wget
             integrity=`$busyfusion stat -c %s /system/xbin/wget`
             if [ $integrity -lt 1 ]
@@ -1913,7 +1914,7 @@ binaryinstall() {
             fi
          ;;
          6)
-            $wgetfusion -O /system/bin/flash_image http://twisted.dyndns.tv/ScriptFusion/binaryfiles/flash_image
+            $wgetfusion -O /system/bin/flash_image $server/ScriptFusion/binaryfiles/flash_image
             chmod 755 /system/bin/flash_image
             integrity=`$busyfusion stat -c %s /system/bin/flash_image`
             if [ $integrity -lt 1 ]
@@ -3868,7 +3869,7 @@ tweakoptions
             
          ;;
          h)
-            $viewitem http://twisted.dyndns.tv/ScriptFusion/
+            $viewitem $server/ScriptFusion/
          ;;
          x)
             $busyfusion clear

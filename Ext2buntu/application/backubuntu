@@ -1,5 +1,6 @@
 #!/system/bin/sh
 
+server="http://twistedumbrella.github.com"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"
 checkubuntu=`$busyfusion mountpoint /data/ubuntu | $busyfusion  grep -F "not" -q`
@@ -48,13 +49,13 @@ echo "Verifying Ext2buntu Services..."
       cd /system/bin
          if [ -e /system/bin/bootubuntu ]
          then
-             $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+             $wgetfusion -T 5 -N $server/Ext2buntu/application/bootubuntu
          fi
          if [ -e /system/bin/loopubuntu ]
          then
-            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+            $wgetfusion -T 5 -N $server/Ext2buntu/application/loopubuntu
          fi
-         $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+         $wgetfusion -T 5 -N $server/Ext2buntu/application/backubuntu
       cd /
       sleep 1
       newcheck=`$busyfusion stat -c %Y /system/bin/backubuntu`
@@ -77,13 +78,13 @@ echo "Verifying Ext2buntu Services..."
       cd /sdcard/ubuntu
          if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/bootubuntu ]
          then
-            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/bootubuntu
+            $wgetfusion -T 5 -N $server/Ext2buntu/application/bootubuntu
          fi
          if [ -e /data/data/com.fusion.tbolt/files/ext2buntu/loopubuntu ]
          then
-            $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/loopubuntu
+            $wgetfusion -T 5 -N $server/Ext2buntu/application/loopubuntu
          fi
-         $wgetfusion -T 5 -N http://twisted.dyndns.tv/Ext2buntu/application/backubuntu
+         $wgetfusion -T 5 -N $server/Ext2buntu/application/backubuntu
       cd /
       sleep 1
       newcheck=`$busyfusion stat -c %Y /data/data/com.fusion.tbolt/files/ext2buntu/backubuntu`

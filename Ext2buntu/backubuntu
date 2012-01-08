@@ -1,8 +1,8 @@
 #!/system/bin/sh
 
+server="http://twistedumbrella.github.com"
 wgetcheck=`busybox stat -c %s /system/xbin/wget`
 checkubuntu=`busybox mountpoint /data/ubuntu | busybox  grep -F "not" -q`
-testdevice=`busybox grep -m 1 -F 'twisted.playground.test_device' /system/build.prop`
 export mnt=/data/ubuntu
 export ifile=$mnt/autoconfig
 export bfile=$mnt/root/.bashrc
@@ -42,7 +42,7 @@ sleep 1
 echo "Verifying Ext2buntu Services..."
 if [ $wgetcheck -lt 24000 ]
 then
-   busybox wget -O /system/xbin/wget http://twisted.dyndns.tv/ScriptFusion/binaryfiles/wget
+   busybox wget -O /system/xbin/wget $server/ScriptFusion/binaryfiles/wget
    chmod 755 /system/xbin/wget
    echo
 fi
@@ -62,13 +62,13 @@ then
       cd /system/bin
          if [ -e /system/bin/bootubuntu ]
          then
-            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+            wget -T 5 -N $server/Ext2buntu/bootubuntu
          fi
          if [ -e /system/bin/loopubuntu ]
          then
-            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+            wget -T 5 -N $server/Ext2buntu/loopubuntu
          fi
-         wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -T 5 -N $server/Ext2buntu/backubuntu
       cd /
       sleep 1
       newcheck=`busybox stat -c %Y /system/bin/backubuntu`
@@ -91,13 +91,13 @@ then
       cd /sdcard/ubuntu
          if [ -e /sdcard/ext2ubuntu/bootubuntu ]
          then
-            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/bootubuntu
+            wget -T 5 -N $server/Ext2buntu/bootubuntu
          fi
          if [ -e /sdcard/ext2ubuntu/loopubuntu ]
          then
-            wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/loopubuntu
+            wget -T 5 -N $server/Ext2buntu/loopubuntu
          fi
-         wget -T 5 -N http://twisted.dyndns.tv/Ext2buntu/backubuntu
+         wget -T 5 -N $server/Ext2buntu/backubuntu
       cd /
       sleep 1
       newcheck=`busybox stat -c %Y /sdcard/ext2ubuntu/backubuntu`
@@ -874,7 +874,7 @@ esac
          then
             if [ ! -e /system/xbin/bash ]
             then
-               wget -O /system/xbin/bash http://twisted.dyndns.tv/Ext2buntu/bash
+               wget -O /system/xbin/bash $server/Ext2buntu/bash
                chmod 755 /system/xbin/bash
                echo
             fi
