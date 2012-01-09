@@ -1,5 +1,7 @@
 #!/system/bin/sh
 
+# Copyright (C) 2011 Twisted Playground
+
 server="http://twistedumbrella.github.com"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"

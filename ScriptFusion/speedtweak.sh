@@ -1,5 +1,7 @@
 #!/system/bin/sh
 
+# Copyright (C) 2011 Twisted Playground
+
 # ScriptFusion - Twisted Playground System Toolkit
 # http://code.google.com/p/cupcake-frosting/
 #

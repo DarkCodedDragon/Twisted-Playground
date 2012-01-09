@@ -1,5 +1,7 @@
 #!/system/bin/sh
 
+# Copyright (C) 2011 Twisted Playground
+
 server="http://twistedumbrella.github.com"
 checkubuntu=`busybox mountpoint /data/ubuntu | busybox  grep -F "not" -q`
 busycheck=`busybox | busybox head -n 1 | busybox awk '{ print $2 }'`
