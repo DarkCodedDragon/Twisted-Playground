@@ -18,8 +18,12 @@
 #
 # Please include credits with any use of included code
 #
-# banuser=`busybox grep -m 1 -iF 'username' /data/data/com.quoord.*.activity/shared_prefs/com.quoord.*.activity.ForumNavigationActivity.xml`
-# User-based code for blocking specific forum members
+# autoban() {
+# banuser=`busybox grep -m 1 -iF $username /data/data/com.quoord.*.activity/shared_prefs/com.quoord.*.activity.ForumNavigationActivity.xml`
+# if [ $banuser ]; then
+# Fill in specific function, process or item to prevent use of
+# One example is triggering "reboot recovery" in a boot script
+# fi } - called by running autoban with a declared username
 
 # Prerequisite Functions
 
