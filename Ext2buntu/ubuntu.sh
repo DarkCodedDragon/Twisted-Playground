@@ -2,7 +2,7 @@
 
 # Copyright (C) 2011 Twisted Playground
 
-server="http://twistedumbrella.github.com"
+server="http://twistedumbrella.github.com/Twisted-Playground"
 checkubuntu=`busybox mountpoint /data/ubuntu | busybox  grep -F "not" -q`
 busycheck=`busybox | busybox head -n 1 | busybox awk '{ print $2 }'`
 wgetcheck=`busybox stat -c %s /system/xbin/wget`

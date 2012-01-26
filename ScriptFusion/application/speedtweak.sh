@@ -29,7 +29,7 @@
 
 # Prerequisite Functions
 
-server="http://twistedumbrella.github.com"
+server="http://twistedumbrella.github.com/Twisted-Playground"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"
 alignfusion="/data/data/com.fusion.tbolt/files/zipalign"

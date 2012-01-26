@@ -27,7 +27,7 @@
 
 # Prerequisite Functions
 
-server="http://twistedumbrella.github.com"
+server="http://twistedumbrella.github.com/Twisted-Playground"
 wgetcheck=`busybox stat -c %s /system/xbin/wget`
 busycheck=`busybox | busybox head -n 1 | busybox awk '{ print $2 }'`
 checkinitial=`busybox grep -q -m 1 -F 'run-parts /system/etc/init.d' /init.rc`

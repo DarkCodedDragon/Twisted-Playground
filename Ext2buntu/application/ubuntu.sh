@@ -2,7 +2,7 @@
 
 # Copyright (C) 2011 Twisted Playground
 
-server="http://twistedumbrella.github.com"
+server="http://twistedumbrella.github.com/Twisted-Playground"
 busyfusion="/data/data/com.fusion.tbolt/files/busybox"
 wgetfusion="/data/data/com.fusion.tbolt/files/wget"
 checkubuntu=`$busyfusion mountpoint /data/ubuntu | $busyfusion  grep -F "not" -q`
