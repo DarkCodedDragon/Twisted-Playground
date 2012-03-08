@@ -1286,30 +1286,24 @@ echo '6) Filesystem Optimization Off'
 else
 echo '6) Filesystem Optimization On'
 fi
-if [ $dropcachetweak ]
-then
-echo '7) Drop Cache (chingy51o) Off'
-else
-echo '7) Drop Cache (chingy51o) On'
-fi
 if [ $contactstweak ]
 then
-echo '8) Image / Contact Tweaks Off'
+echo '7) Image / Contact Tweaks Off'
 else
-echo '8) Image / Contact Tweaks On'
+echo '7) Image / Contact Tweaks On'
 fi
 if [ -e /system/xbin/dexopt-wrapper ]; then
 if [ $odexsystweak ]
 then
-echo '9) Maintain System Odex Off'
+echo '8) Maintain System Odex Off'
 else
-echo '9) Maintain System Odex On'
+echo '8) Maintain System Odex On'
 fi
 if [ $odexdattweak ]
 then
-echo '10) Maintain User Odex Off'
+echo '9) Maintain User Odex Off'
 else
-echo '10) Maintain User Odex On'
+echo '9) Maintain User Odex On'
 fi
 else
 echo "Run Odex Optimization (9-10)"
@@ -1317,15 +1311,21 @@ fi
 echo
 if [ $delayedtweak ]
 then
-echo '11) Delayed Logger Disable Off'
+echo '10) Delayed Logger Disable Off'
 else
-echo '11) Delayed Logger Disable On'
+echo '10) Delayed Logger Disable On'
 fi
 if [ $loggertweak ]
 then
-echo '12) Disabled Logger Off'
+echo '11) Disabled Logger Off'
 else
-echo '12) Disabled Logger On'
+echo '11) Disabled Logger On'
+fi
+if [ $dropcachetweak ]
+then
+echo '12) Drop Cache (chingy51o) Off'
+else
+echo '12) Drop Cache (chingy51o) On'
 fi
 echo '13) Turn On Performance (1 to 3)'
 echo '14) Turn On Optimization (4 to 8)'
@@ -1421,7 +1421,7 @@ else
 $busyfusion sed -i 's/filesys #/#filesys/g' $tfile
 fi
 ;;
-7)
+12)
 # dropcache
 if [ $dropcachetweak ]
 then
@@ -1430,7 +1430,7 @@ else
 $busyfusion sed -i 's/dropcache #/#dropcache/g' $tfile
 fi
 ;;
-8)
+7)
 # contacts
 if [ $contactstweak ]
 then
@@ -1439,7 +1439,7 @@ else
 $busyfusion sed -i 's/contacts #/#contacts/g' $tfile
 fi
 ;;
-9)
+8)
 # odexsys
 if [ $odexsystweak ]
 then
@@ -1448,7 +1448,7 @@ else
 $busyfusion sed -i 's/odexsys #/#odexsys/g' $tfile
 fi
 ;;
-10)
+9)
 # odexdat
 if [ $odexdattweak ]
 then
@@ -1457,7 +1457,7 @@ else
 $busyfusion sed -i 's/odexdat #/#odexdat/g' $tfile
 fi
 ;;
-11)
+10)
 # delayed
 if [ $delayedtweak ]
 then
@@ -1466,7 +1466,7 @@ else
 $busyfusion sed -i 's/delayed #/#delayed/g' $tfile
 fi
 ;;
-12)
+11)
 # logger
 if [ $loggertweak ]
 then
